@@ -710,21 +710,24 @@
             <div class="flex-1 min-h-0 overflow-y-auto p-5 sm:p-6 space-y-4 sm:space-y-5">
                 <div id="weather-error" class="hidden rounded-2xl bg-oren-muda dark:bg-amber-950/50 text-oren-tua dark:text-amber-200 px-4 py-3 text-xs font-bold"></div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="rounded-2xl bg-ijo-sangatmuda dark:bg-[#0f1c19] border border-transparent dark:border-[#233a34] p-5">
-                        <p class="text-[10px] uppercase font-bold text-ijo-tua dark:text-emerald-400">Suhu</p>
-                        <p id="weather-temp" class="text-3xl font-bold text-ijo-tua dark:text-emerald-400 mt-1">-</p>
-                        <p id="weather-condition" class="text-xs text-gray-600 dark:text-gray-300 mt-1">-</p>
-                    </div>
-                    <div class="rounded-2xl bg-gray-50 dark:bg-[#0f1c19] border border-transparent dark:border-[#233a34] p-5">
-                        <p class="text-[10px] uppercase font-bold text-gray-400 dark:text-gray-400">Kelembapan</p>
-                        <p id="weather-humidity" class="text-2xl font-bold text-gray-900 dark:text-white mt-1">-</p>
-                        <p id="weather-cloud" class="text-xs text-gray-500 dark:text-gray-300 mt-1">Awan -</p>
-                    </div>
-                    <div class="rounded-2xl bg-gray-50 dark:bg-[#0f1c19] border border-transparent dark:border-[#233a34] p-5">
-                        <p class="text-[10px] uppercase font-bold text-gray-400 dark:text-gray-400">Angin</p>
-                        <p id="weather-wind" class="text-2xl font-bold text-gray-900 dark:text-white mt-1">-</p>
-                        <p id="weather-rain" class="text-xs text-gray-500 dark:text-gray-300 mt-1">Hujan -</p>
+                <div>
+                    <h3 class="text-sm font-extrabold text-gray-900 dark:text-white">Cuaca Terkini</h3>
+                    <div class="mt-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="rounded-2xl bg-ijo-sangatmuda dark:bg-[#0f1c19] border border-transparent dark:border-[#233a34] p-5">
+                            <p class="text-[10px] uppercase font-bold text-ijo-tua dark:text-emerald-400">Suhu</p>
+                            <p id="weather-temp" class="text-3xl font-bold text-ijo-tua dark:text-emerald-400 mt-1">-</p>
+                            <p id="weather-condition" class="text-xs text-gray-600 dark:text-gray-300 mt-1">-</p>
+                        </div>
+                        <div class="rounded-2xl bg-gray-50 dark:bg-[#0f1c19] border border-transparent dark:border-[#233a34] p-5">
+                            <p class="text-[10px] uppercase font-bold text-gray-400 dark:text-gray-400">Kelembapan</p>
+                            <p id="weather-humidity" class="text-2xl font-bold text-gray-900 dark:text-white mt-1">-</p>
+                            <p id="weather-cloud" class="text-xs text-gray-500 dark:text-gray-300 mt-1">Awan -</p>
+                        </div>
+                        <div class="rounded-2xl bg-gray-50 dark:bg-[#0f1c19] border border-transparent dark:border-[#233a34] p-5">
+                            <p class="text-[10px] uppercase font-bold text-gray-400 dark:text-gray-400">Angin</p>
+                            <p id="weather-wind" class="text-2xl font-bold text-gray-900 dark:text-white mt-1">-</p>
+                            <p id="weather-rain" class="text-xs text-gray-500 dark:text-gray-300 mt-1">Hujan -</p>
+                        </div>
                     </div>
                 </div>
 
