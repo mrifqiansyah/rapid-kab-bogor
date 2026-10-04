@@ -153,7 +153,8 @@ Route::prefix('admin')->group(function () {
         Route::put('/kecamatan/{id}', [AdminInstansiController::class, 'updateKecamatan'])->name('admin.kecamatan.update');
         Route::delete('/kecamatan/{id}', [AdminInstansiController::class, 'destroyKecamatan'])->name('admin.kecamatan.destroy');
 
-        // Manajemen Akun Dinas
+        // Manajemen Akun Admin / Dinas
+        Route::redirect('/akun', '/admin/akun/dinas')->name('admin.akun.index');
         Route::get('/akun/dinas', [AdminAkunDinasController::class, 'index'])->name('admin.akun.dinas.index');
         Route::post('/akun/dinas', [AdminAkunDinasController::class, 'store'])->name('admin.akun.dinas.store');
         Route::put('/akun/dinas/{id}', [AdminAkunDinasController::class, 'update'])->name('admin.akun.dinas.update');

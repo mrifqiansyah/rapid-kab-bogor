@@ -17,17 +17,17 @@
 <aside id="sidebar-menu" class="fixed md:static inset-y-0 left-0 z-50 w-72 md:w-[270px] h-screen bg-white dark:bg-[#0f1c19] border-r border-gray-200/80 dark:border-[#233a34] text-gray-800 dark:text-white flex flex-col justify-between font-sans shadow-xl md:shadow-[6px_0_30px_rgba(0,0,0,0.06)] select-none transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out">
     
     <div>
-        <!-- Logo & Header -->
-        <div class="px-5 py-4 flex items-center gap-3 border-b border-gray-100 dark:border-[#233a34]">
-            <div class="w-8 h-9 flex items-center justify-center shrink-0">
+        <!-- Logo & Header (Solid Green RAPID Card) -->
+        <div class="px-5 py-4 min-h-[64px] sm:min-h-[72px] flex items-center gap-3 bg-[#35635b] dark:bg-[#16352e] text-white border-b border-[#2a5049] dark:border-[#233a34] shadow-sm">
+            <div class="w-9 h-10 rounded-xl bg-white/15 dark:bg-white/10 border border-white/25 dark:border-white/20 p-1.5 flex items-center justify-center shrink-0 shadow-xs">
                 <img src="{{ asset('assets/foto/logo-bappenda.png') }}" alt="Logo Kab. Bogor" class="w-full h-full object-contain drop-shadow-xs">
             </div>
             <div class="min-w-0 flex-1">
-                <h1 class="font-black text-xl leading-none tracking-wide text-[#35635b] dark:text-white">RAPID</h1>
-                <p class="text-[8px] font-bold text-gray-400 dark:text-gray-400 tracking-wider uppercase mt-1 leading-none whitespace-nowrap">RAPAT DAN PRESENSI INTEGRASI DIGITAL</p>
+                <h1 class="font-black text-xl leading-none tracking-wide text-white drop-shadow-xs">RAPID</h1>
+                <p class="text-[8px] font-bold text-white/85 dark:text-emerald-200 tracking-wider uppercase mt-1 leading-none whitespace-nowrap">RAPAT DAN PRESENSI INTEGRASI DIGITAL</p>
             </div>
             <!-- Mobile Close Button -->
-            <button onclick="toggleSidebar()" class="md:hidden ml-auto w-8 h-8 rounded-lg bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 flex items-center justify-center text-[#35635b] dark:text-white focus:outline-none shrink-0 transition-colors cursor-pointer" title="Tutup Menu">
+            <button onclick="toggleSidebar()" class="md:hidden ml-auto w-8 h-8 rounded-lg bg-white/15 hover:bg-white/25 flex items-center justify-center text-white focus:outline-none shrink-0 transition-colors cursor-pointer" title="Tutup Menu">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>

@@ -195,11 +195,13 @@ class AdminAgendaController extends Controller
         if (Schema::hasTable('sirapi_md_dinas')) {
             $dinases = DB::table('sirapi_md_dinas')->orderBy('nama_dinas')->get();
             foreach ($dinases as $dinas) {
-                $label = !empty($dinas->kode_dinas) ? "{$dinas->nama_dinas} ({$dinas->kode_dinas})" : $dinas->nama_dinas;
+                $singkatan = !empty($dinas->singkatan) ? $dinas->singkatan : ($dinas->kode_dinas ?? null);
+                $label = !empty($singkatan) && !str_contains($dinas->nama_dinas, '(' . $singkatan . ')') ? "{$dinas->nama_dinas} ({$singkatan})" : $dinas->nama_dinas;
                 $list->push([
                     'nama' => $label,
                     'nama_asli' => $dinas->nama_dinas,
                     'kode' => $dinas->kode_dinas,
+                    'singkatan' => $singkatan,
                     'alamat' => $dinas->alamat ?? 'Cibinong, Kab. Bogor',
                     'tipe' => 'Dinas / OPD',
                 ]);

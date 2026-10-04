@@ -57,7 +57,7 @@
             <option value="">Pilih Instansi</option>
             <optgroup label="Dinas / Perangkat Daerah">
                 @foreach (($dinasList ?? collect()) as $dinas)
-                    <option value="dinas_{{ $dinas->id_dinas }}">{{ $dinas->nama_dinas }}</option>
+                    <option value="dinas_{{ $dinas->id_dinas }}">{{ $dinas->nama_lengkap ?? $dinas->nama_dinas }}</option>
                 @endforeach
             </optgroup>
             <optgroup label="Kecamatan">

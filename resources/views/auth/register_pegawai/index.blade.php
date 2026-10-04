@@ -222,7 +222,7 @@
                                 <optgroup label="Dinas / Perangkat Daerah">
                                     @foreach ($dinasList as $dinas)
                                         <option value="dinas_{{ $dinas->id_dinas }}" @selected(old('instansi') === 'dinas_' . $dinas->id_dinas)>
-                                            {{ $dinas->nama_dinas }}
+                                            {{ $dinas->nama_lengkap ?? $dinas->nama_dinas }}
                                         </option>
                                     @endforeach
                                 </optgroup>

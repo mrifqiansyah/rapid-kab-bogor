@@ -565,6 +565,17 @@ class PegawaiAuthController extends Controller
 
     private function fallbackDinasList(): \Illuminate\Support\Collection
     {
+        $abbreviations = [
+            11 => 'BKPSDM', 10 => 'Bakesbangpol', 12 => 'BPBD', 13 => 'BPKAD', 7 => 'Bappenda',
+            6 => 'Bappedalitbang', 15 => 'DAPD', 17 => 'Disbudpar', 19 => 'Disdukcapil', 3 => 'Dinkes',
+            26 => 'DKP', 1 => 'Diskominfo', 21 => 'Diskopukm', 27 => 'DLH', 23 => 'Disparekraf',
+            5 => 'PUPR', 14 => 'Damkar', 30 => 'DPMD', 28 => 'DP3AP2KB', 24 => 'Dispora',
+            31 => 'DPMPTSP', 2 => 'Disdik', 18 => 'Disdagin', 4 => 'Dishub', 20 => 'Diskanak',
+            32 => 'DPTR', 29 => 'DPKP', 16 => 'Dinsos', 25 => 'Distanhorbun', 22 => 'Disnaker',
+            33 => 'Inspektorat', 34 => 'RSUD Ciawi', 35 => 'RSUD Cibinong', 36 => 'RSUD Cileungsi',
+            37 => 'RSUD Leuwiliang', 8 => 'Satpol PP', 38 => 'Setda', 39 => 'Setwan', 40 => 'Pol',
+        ];
+
         return collect([
             (object) ['id_dinas' => 11, 'nama_dinas' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia'],
             (object) ['id_dinas' => 10, 'nama_dinas' => 'Badan Kesatuan Bangsa dan Politik'],
@@ -604,7 +615,11 @@ class PegawaiAuthController extends Controller
             (object) ['id_dinas' => 8, 'nama_dinas' => 'Satuan Polisi Pamong Praja'],
             (object) ['id_dinas' => 38, 'nama_dinas' => 'Sekretariat Daerah'],
             (object) ['id_dinas' => 39, 'nama_dinas' => 'Sekretariat DPRD'],
-        ]);
+        ])->map(function ($item) use ($abbreviations) {
+            $abbr = $abbreviations[$item->id_dinas] ?? null;
+            $item->nama_lengkap = $abbr ? "{$item->nama_dinas} ({$abbr})" : $item->nama_dinas;
+            return $item;
+        });
     }
 
     private function fallbackKecamatanList(): \Illuminate\Support\Collection

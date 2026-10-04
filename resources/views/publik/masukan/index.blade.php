@@ -118,7 +118,7 @@
                                 <option value="" disabled selected class="bg-white dark:bg-[#152420] text-gray-700 dark:text-gray-300">Pilih Perangkat Daerah / Dinas yang dituju</option>
                                 @foreach ($dinasList ?? [] as $dinasItem)
                                     <option value="{{ $dinasItem->id_dinas }}" @selected(old('id_dinas') == $dinasItem->id_dinas) class="bg-white dark:bg-[#152420] text-gray-900 dark:text-white py-1">
-                                        {{ $dinasItem->nama_dinas }}
+                                        {{ $dinasItem->nama_lengkap ?? $dinasItem->nama_dinas }}
                                     </option>
                                 @endforeach
                             </select>

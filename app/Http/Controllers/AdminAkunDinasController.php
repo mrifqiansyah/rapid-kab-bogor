@@ -23,27 +23,32 @@ class AdminAkunDinasController extends Controller
         $statusFilter = (string) $request->query('status', 'semua');
 
         $akunList = Admin::with('dinas')
-            ->where('role', 'dinas')
+            ->whereIn('role', ['dinas', 'admin_dinas', 'superadmin', 'super_admin'])
             ->when($keyword !== '', function ($query) use ($keyword) {
                 $query->where(function ($search) use ($keyword) {
                     $search->where('nama', 'like', "%{$keyword}%")
                         ->orWhere('username', 'like', "%{$keyword}%")
-                        ->orWhere('email', 'like', "%{$keyword}%")
-                        ->orWhere('nomor_hp', 'like', "%{$keyword}%")
+                        ->orWhere('role', 'like', "%{$keyword}%")
                         ->orWhereHas('dinas', function ($q) use ($keyword) {
                             $q->where('nama_dinas', 'like', "%{$keyword}%")
                                 ->orWhere('singkatan', 'like', "%{$keyword}%");
                         });
                 });
             })
-            ->when($dinasFilter !== 'semua', fn ($query) => $query->where('id_dinas', $dinasFilter))
+            ->when($dinasFilter !== 'semua', function ($query) use ($dinasFilter) {
+                if ($dinasFilter === 'superadmin') {
+                    $query->whereIn('role', ['superadmin', 'super_admin']);
+                } else {
+                    $query->where('id_dinas', $dinasFilter);
+                }
+            })
             ->when($statusFilter !== 'semua', fn ($query) => $query->where('status', $statusFilter))
             ->latest('id_admin')
             ->get();
 
-        $totalAkun = Admin::where('role', 'dinas')->count();
-        $totalAktif = Admin::where('role', 'dinas')->where('status', 'aktif')->count();
-        $totalNonaktif = Admin::where('role', 'dinas')->where('status', 'nonaktif')->count();
+        $totalAkun = Admin::whereIn('role', ['dinas', 'admin_dinas', 'superadmin', 'super_admin'])->count();
+        $totalAktif = Admin::whereIn('role', ['dinas', 'admin_dinas', 'superadmin', 'super_admin'])->where('status', 'aktif')->count();
+        $totalNonaktif = Admin::whereIn('role', ['dinas', 'admin_dinas', 'superadmin', 'super_admin'])->where('status', 'nonaktif')->count();
         $masterDinas = Dinas::orderBy('nama_dinas')->get();
 
         return view('admin.akun.dinas.index', compact(
@@ -61,47 +66,70 @@ class AdminAkunDinasController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'nama' => 'required|string|max:255',
             'username' => 'required|string|max:100|unique:sirapi_md_admin,username',
             'password' => 'required|string|min:6',
-            'id_dinas' => 'required|exists:sirapi_md_dinas,id_dinas',
-            'email' => 'nullable|email|max:255',
-            'nomor_hp' => 'nullable|string|max:20',
-            'status' => 'required|in:aktif,nonaktif',
+            'id_dinas' => 'required',
         ]);
 
-        $validated['role'] = 'dinas';
-        $validated['password'] = Hash::make($validated['password']);
+        $idDinasInput = $request->input('id_dinas');
+        $isSuperAdmin = ($idDinasInput === 'superadmin');
 
-        Admin::create($validated);
+        if (!$isSuperAdmin) {
+            $request->validate([
+                'id_dinas' => 'exists:sirapi_md_dinas,id_dinas',
+            ]);
+        }
 
-        return back()->with('success', 'Akun Dinas berhasil dibuat.');
+        Admin::create([
+            'nama' => $request->input('nama'),
+            'username' => $request->input('username'),
+            'password' => Hash::make($request->input('password')),
+            'role' => $isSuperAdmin ? 'superadmin' : 'dinas',
+            'id_dinas' => $isSuperAdmin ? null : (int) $idDinasInput,
+            'status' => 'aktif',
+        ]);
+
+        return back()->with('success', 'Akun Admin berhasil dibuat.');
     }
 
     public function update($id, Request $request)
     {
-        $akun = Admin::where('role', 'dinas')->findOrFail($id);
+        $akun = Admin::whereIn('role', ['dinas', 'admin_dinas', 'superadmin', 'super_admin'])->findOrFail($id);
 
-        $validated = $request->validate([
+        $request->validate([
             'nama' => 'required|string|max:255',
             'username' => 'required|string|max:100|unique:sirapi_md_admin,username,' . $id . ',id_admin',
-            'id_dinas' => 'required|exists:sirapi_md_dinas,id_dinas',
-            'email' => 'nullable|email|max:255',
-            'nomor_hp' => 'nullable|string|max:20',
-            'status' => 'required|in:aktif,nonaktif',
+            'id_dinas' => 'required',
             'password' => 'nullable|string|min:6',
+            'status' => 'nullable|in:aktif,nonaktif',
         ]);
 
-        if (!empty($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
+        $idDinasInput = $request->input('id_dinas');
+        $isSuperAdmin = ($idDinasInput === 'superadmin');
+
+        if (!$isSuperAdmin) {
+            $request->validate([
+                'id_dinas' => 'exists:sirapi_md_dinas,id_dinas',
+            ]);
         }
 
-        $akun->update($validated);
+        $data = [
+            'nama' => $request->input('nama'),
+            'username' => $request->input('username'),
+            'role' => $isSuperAdmin ? 'superadmin' : 'dinas',
+            'id_dinas' => $isSuperAdmin ? null : (int) $idDinasInput,
+            'status' => $request->input('status', $akun->status ?? 'aktif'),
+        ];
 
-        return back()->with('success', 'Data Akun Dinas berhasil diperbarui.');
+        if (!empty($request->input('password'))) {
+            $data['password'] = Hash::make($request->input('password'));
+        }
+
+        $akun->update($data);
+
+        return back()->with('success', 'Data Akun Admin berhasil diperbarui.');
     }
 
     public function resetPassword($id, Request $request)
@@ -110,18 +138,22 @@ class AdminAkunDinasController extends Controller
             'new_password' => 'required|string|min:6',
         ]);
 
-        $akun = Admin::where('role', 'dinas')->findOrFail($id);
+        $akun = Admin::whereIn('role', ['dinas', 'admin_dinas', 'superadmin', 'super_admin'])->findOrFail($id);
         $akun->update([
             'password' => Hash::make($request->input('new_password')),
         ]);
 
-        return back()->with('success', 'Password akun Dinas berhasil direset.');
+        return back()->with('success', 'Password akun Admin berhasil direset.');
     }
 
     public function destroy($id)
     {
-        Admin::where('role', 'dinas')->findOrFail($id)->delete();
+        if (Auth::guard('admin')->id() == $id) {
+            return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri yang sedang aktif.');
+        }
 
-        return back()->with('success', 'Akun Dinas berhasil dihapus.');
+        Admin::whereIn('role', ['dinas', 'admin_dinas', 'superadmin', 'super_admin'])->findOrFail($id)->delete();
+
+        return back()->with('success', 'Akun Admin berhasil dihapus.');
     }
 }

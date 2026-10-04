@@ -24,9 +24,25 @@ class Dinas extends Model
         'gps_long',
     ];
 
+    protected $appends = [
+        'nama_lengkap',
+    ];
+
     public function getSingkatanAttribute($value): string
     {
         return $value ?: ($this->kode_dinas ?: $this->nama_dinas);
+    }
+
+    public function getNamaLengkapAttribute(): string
+    {
+        $singkatan = $this->getRawOriginal('singkatan') ?: ($this->kode_dinas ?: null);
+        $nama = $this->attributes['nama_dinas'] ?? '';
+
+        if (!empty($singkatan) && !str_contains($nama, '(' . $singkatan . ')')) {
+            return "{$nama} ({$singkatan})";
+        }
+
+        return $nama;
     }
 
     public function admins()
@@ -34,3 +50,4 @@ class Dinas extends Model
         return $this->hasMany(Admin::class, 'id_dinas', 'id_dinas');
     }
 }
+

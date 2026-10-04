@@ -35,14 +35,14 @@
     @if (auth('admin')->check() && auth('admin')->user()->role === 'admin_dinas')
         <input type="hidden" id="{{ $prefix }}id_dinas" name="id_dinas" value="{{ auth('admin')->user()->id_dinas }}">
         <div class="h-10 sm:h-11 w-full rounded-xl border border-[#c9ddd4] dark:border-[#284c43] bg-[#eef7f3] dark:bg-[#132722] px-3.5 sm:px-4 text-xs sm:text-sm font-bold text-[#35635b] dark:text-emerald-400 flex items-center gap-2">
-            <span>{{ auth('admin')->user()->dinas?->nama_dinas ?? 'Dinas Terdaftar' }}</span>
+            <span>{{ auth('admin')->user()->dinas?->nama_lengkap ?? 'Dinas Terdaftar' }}</span>
         </div>
     @else
         <div class="relative">
             <select id="{{ $prefix }}id_dinas" name="id_dinas" class="h-10 sm:h-11 w-full appearance-none rounded-xl border border-[#c9ddd4] dark:border-[#284c43] bg-[#f4faf7] dark:bg-[#0f1c19] px-3.5 sm:px-4 pr-10 text-xs sm:text-sm text-gray-800 dark:text-white outline-none transition focus:border-[#35635b] focus:bg-white dark:focus:bg-[#0f1c19] focus:ring-2 focus:ring-[#35635b]/10 cursor-pointer">
                 <option value="">-- Pilih Dinas / Instansi Penyelenggara --</option>
                 @foreach ($dinasList ?? \App\Models\Dinas::orderBy('nama_dinas')->get() as $d)
-                    <option value="{{ $d->id_dinas }}">{{ $d->nama_dinas }} ({{ $d->kode_dinas ?? 'OPD' }})</option>
+                    <option value="{{ $d->id_dinas }}">{{ $d->nama_lengkap }}</option>
                 @endforeach
             </select>
             <svg class="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#61706a] dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
