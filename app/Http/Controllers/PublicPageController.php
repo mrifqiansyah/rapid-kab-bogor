@@ -84,7 +84,7 @@ class PublicPageController extends Controller
         $totalGaleri = $this->queryOrDefault(fn () => $this->dokumentasiAgendaGaleri()->count(), 0);
         $ulangTahun = $this->queryOrDefault(fn () => UlangTahun::tampilkanUlangTahunPegawai(), collect());
         $ulangTahunHariIni = $ulangTahun->first(fn ($item) => $item->tanggal?->format('m-d') === $today->format('m-d'));
-        $masukan = $this->queryOrDefault(fn () => DataAduan::latest('id_dataaduan')->take(5)->get(), collect());
+        $masukan = $this->queryOrDefault(fn () => DataAduan::with('dinas')->latest('id_dataaduan')->take(5)->get(), collect());
         $youtubeEmbedUrl = $this->defaultYoutubeEmbedUrl();
 
         // Data Dinas & Kecamatan dari Database untuk Peta GIS
