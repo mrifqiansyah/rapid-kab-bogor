@@ -648,12 +648,9 @@
 
                 <!-- Card Lampiran Foto -->
                 <div id="home-aduan-photo-container" class="hidden rounded-2xl border border-gray-100 dark:border-[#233a34] bg-white dark:bg-[#0f1c19] p-4 sm:p-5 space-y-2.5 shadow-2xs">
-                    <div class="flex items-center justify-between">
-                        <p class="text-[10px] uppercase font-extrabold tracking-wider text-gray-400 dark:text-gray-400 flex items-center gap-1.5">
-                            <span>Lampiran Foto Aduan</span>
-                        </p>
-                        <span class="text-[10.5px] font-medium text-gray-400 dark:text-gray-500">Klik foto untuk perbesar</span>
-                    </div>
+                    <p class="text-[10px] uppercase font-extrabold tracking-wider text-gray-400 dark:text-gray-400 flex items-center gap-1.5">
+                        <span>Lampiran Foto Aduan</span>
+                    </p>
                     <button type="button" 
                             onclick="openHomePhotoModal()" 
                             class="group relative w-full overflow-hidden rounded-xl bg-gray-50 dark:bg-[#0a1210] border border-gray-200/80 dark:border-[#284c43] flex items-center justify-center cursor-pointer transition hover:border-[#35635b] dark:hover:border-emerald-500/60 focus:outline-none"
