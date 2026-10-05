@@ -78,7 +78,7 @@
                     <tr class="bg-[#35635b] dark:bg-[#1b3832] text-white text-xs font-bold uppercase tracking-wider">
                         <th class="px-6 py-4">Pengunjung</th>
                         <th class="px-6 py-4">Pihak Dituju</th>
-                        <th class="px-6 py-4">Dinas / Kecamatan</th>
+                        <th class="px-6 py-4 min-w-[170px]">Dinas / Kecamatan</th>
                         <th class="px-6 py-4">Instansi</th>
                         <th class="px-6 py-4">No HP</th>
                         <th class="px-6 py-4">Email</th>
@@ -95,11 +95,11 @@
                             <td class="px-6 py-4 text-gray-700 dark:text-slate-200">{{ $item->nama_pejabat ?? '-' }}</td>
                             <td class="px-6 py-4 text-gray-700 dark:text-slate-200">
                                 @if($item->dinas)
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 leading-snug">
                                         {{ $item->dinas->nama_dinas }}
                                     </span>
                                 @elseif($item->kecamatan)
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-950/70 text-blue-800 dark:text-blue-300">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60 leading-snug">
                                         {{ $item->kecamatan->nama_kecamatan }}
                                     </span>
                                 @else

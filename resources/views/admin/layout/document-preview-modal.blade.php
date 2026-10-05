@@ -1,11 +1,10 @@
 <!-- MODAL PREVIEW DOKUMEN / LAMPIRAN / NOTULEN / DOKUMENTASI -->
-<div id="modal-preview-dokumen" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4 md:p-6 transition-all duration-200" onclick="handleDocModalClick(event)">
+<div id="modal-preview-dokumen" style="z-index: 999999 !important;" class="fixed inset-0 hidden items-center justify-center bg-black/85 backdrop-blur-sm p-2 sm:p-4 md:p-6 transition-all duration-200" onclick="handleDocModalClick(event)">
     <div class="relative flex flex-col w-full max-w-5xl max-h-[calc(100dvh-1rem)] sm:max-h-[92vh] rounded-2xl bg-white dark:bg-[#152420] shadow-2xl dark:border dark:border-[#284c43] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         
         <!-- Header Modal -->
         <div class="rounded-t-2xl bg-[#3f8078] dark:bg-[#163830] text-white px-3.5 py-3 sm:px-5 sm:py-3.5 flex items-center justify-between gap-2.5 sm:gap-3 shrink-0 border-b border-white/10">
             <div class="flex items-center gap-2 sm:gap-3 min-w-0">
-                <span id="doc-preview-icon" class="text-lg sm:text-xl shrink-0">📄</span>
                 <div class="min-w-0">
                     <h3 id="doc-preview-title" class="text-xs sm:text-base font-bold text-white truncate leading-tight">Preview Dokumen</h3>
                     <p id="doc-preview-filename" class="text-[10px] sm:text-[11px] text-white/75 truncate mt-0.5">-</p>
@@ -138,7 +137,6 @@
         const titleEl = document.getElementById('doc-preview-title');
         const filenameEl = document.getElementById('doc-preview-filename');
         const downloadBtn = document.getElementById('doc-preview-download');
-        const iconEl = document.getElementById('doc-preview-icon');
         const zoomControls = document.getElementById('doc-preview-zoom-controls');
 
         const pdfFrame = document.getElementById('doc-preview-pdf');
@@ -149,6 +147,12 @@
         const unsupportedBtn = document.getElementById('doc-unsupported-btn');
 
         if (!modal || !fileUrl) return;
+
+        // Pastikan modal berada di body teratas dengan z-index tertinggi
+        if (modal.parentElement && modal.parentElement !== document.body) {
+            document.body.appendChild(modal);
+        }
+        modal.style.zIndex = '999999';
 
         // Ekstrak nama file jika belum disediakan
         const cleanFileName = fileName || fileUrl.split('/').pop().split('?')[0] || 'Dokumen';
@@ -179,11 +183,9 @@
         const isPdf = fileExt === 'pdf';
 
         if (isPdf) {
-            if (iconEl) iconEl.textContent = '📑';
             pdfFrame.src = fileUrl;
             pdfFrame.classList.remove('hidden');
         } else if (isImage) {
-            if (iconEl) iconEl.textContent = '🖼️';
             imgEl.src = fileUrl;
             imgContainer.classList.remove('hidden');
             if (zoomControls) {
@@ -192,7 +194,6 @@
             }
             resetDocImageZoom();
         } else {
-            if (iconEl) iconEl.textContent = '📄';
             if (unsupportedName) unsupportedName.textContent = cleanFileName;
             if (unsupportedBtn) {
                 unsupportedBtn.href = fileUrl;
@@ -214,6 +215,9 @@
 
         modal.classList.replace('flex', 'hidden');
         document.body.style.overflow = '';
+
+        // Beritahu parent modal jika ada yang perlu direstore
+        window.dispatchEvent(new CustomEvent('documentPreviewClosed'));
     }
 
     function handleDocModalClick(event) {

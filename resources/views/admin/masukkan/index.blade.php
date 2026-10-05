@@ -126,7 +126,7 @@
                             <td class="px-6 py-4 text-center">
                                 @if ($fotoUrl)
                                     <img src="{{ $fotoUrl }}"
-                                         onclick="openDocumentPreviewModal('{{ $fotoUrl }}', 'Foto Pengaduan - {{ e($item->nama_pengadu) }}')"
+                                         onclick="openDocumentPreview('{{ $fotoUrl }}', 'Foto Pengaduan - {{ e(addslashes($item->nama_pengadu)) }}', '{{ addslashes(basename($item->foto)) }}')"
                                          alt="Foto Lampiran"
                                          class="w-12 h-12 object-cover rounded-xl border border-gray-200 dark:border-[#284c43] shadow-2xs hover:scale-105 transition cursor-pointer mx-auto"
                                          title="Klik untuk memperbesar foto">
@@ -208,24 +208,34 @@
 
 <!-- Modal Balas Aduan -->
 <div id="modal-reply-aduan" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 hidden">
-    <div class="bg-white dark:bg-[#152420] border border-gray-100 dark:border-[#233a34] rounded-2xl shadow-2xl max-w-lg w-full p-6 text-left relative">
+    <div class="bg-white dark:bg-[#152420] border border-gray-100 dark:border-[#233a34] rounded-2xl shadow-2xl max-w-lg w-full p-6 text-left relative max-h-[92vh] overflow-y-auto">
         <div class="flex justify-between items-center pb-4 mb-4 border-b border-gray-100 dark:border-[#233a34]">
             <h3 class="text-base font-extrabold text-gray-900 dark:text-white">Balas Pengaduan Masyarakat</h3>
-            <button onclick="closeModal('modal-reply-aduan')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">✕</button>
+            <button type="button" onclick="closeModal('modal-reply-aduan')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-lg leading-none cursor-pointer">✕</button>
         </div>
         <form id="form-reply-aduan" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
-            <div class="bg-gray-50 dark:bg-[#0f1c19] p-3.5 rounded-xl border border-gray-200 dark:border-[#284c43] space-y-2">
-                <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase">Pengadu: <span id="reply-pengadu-nama" class="text-gray-900 dark:text-white"></span></p>
-                <p id="reply-aduan-teks" class="text-xs text-gray-700 dark:text-gray-300 italic"></p>
-                <div id="reply-foto-container" class="hidden pt-2 border-t border-gray-200 dark:border-[#284c43]">
-                    <p class="text-[11px] font-extrabold text-gray-500 dark:text-gray-400 uppercase mb-1">Foto Bukti Aduan:</p>
-                    <div class="flex items-center gap-3">
-                        <img id="reply-foto-img" src="" class="w-16 h-16 object-cover rounded-xl border border-gray-200 dark:border-[#284c43] cursor-pointer" onclick="openDocumentPreviewModal(this.src, 'Foto Aduan')">
-                        <button type="button" id="reply-foto-btn" onclick="" class="text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline">
-                            🔍 Lihat Foto Ukuran Penuh
-                        </button>
+            <div class="bg-gray-50 dark:bg-[#0f1c19] p-4 rounded-xl border border-gray-200 dark:border-[#284c43] space-y-3">
+                <div>
+                    <p class="text-[11px] font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pengadu: <span id="reply-pengadu-nama" class="text-gray-900 dark:text-white font-bold"></span></p>
+                    <p id="reply-aduan-teks" class="text-xs text-gray-700 dark:text-gray-300 italic mt-1 leading-relaxed"></p>
+                </div>
+                <div id="reply-foto-container" class="hidden pt-3 border-t border-gray-200 dark:border-[#284c43]">
+                    <p class="text-[11px] font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Foto Bukti Aduan</p>
+                    <div onclick="viewReplyFotoFull()" 
+                         class="group relative overflow-hidden rounded-xl border border-gray-200 dark:border-[#284c43] bg-black/5 dark:bg-black/30 cursor-pointer transition hover:border-emerald-500/50 hover:shadow-md"
+                         title="Klik foto untuk melihat ukuran penuh">
+                        <img id="reply-foto-img" 
+                             src="" 
+                             alt="Foto Bukti Aduan" 
+                             class="w-full h-44 sm:h-52 object-contain rounded-xl transition duration-300 group-hover:scale-[1.02]">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/75 text-white text-xs font-bold backdrop-blur-xs shadow-md">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                                <span>Lihat Ukuran Penuh</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -234,30 +244,69 @@
                 <textarea id="reply-balasan-text" name="balasan_admin" rows="4" required placeholder="Tuliskan respon resmi tindak lanjut pengaduan ini..." class="w-full rounded-xl border border-gray-200 dark:border-[#284c43] bg-white dark:bg-[#0f1c19] px-4 py-2.5 text-sm text-gray-800 dark:text-white outline-none focus:border-[#35635b]"></textarea>
             </div>
             <div class="pt-4 flex justify-end gap-2 border-t border-gray-100 dark:border-[#233a34]">
-                <button type="button" onclick="closeModal('modal-reply-aduan')" class="px-4 py-2 text-xs font-bold rounded-xl border border-gray-300 dark:border-[#284c43] text-gray-700 dark:text-gray-300">Batal</button>
-                <button type="submit" class="px-5 py-2 text-xs font-bold rounded-xl bg-[#35635b] dark:bg-[#107050] text-white hover:bg-[#2b4f49]">Kirim Balasan</button>
+                <button type="button" onclick="closeModal('modal-reply-aduan')" class="px-4 py-2 text-xs font-bold rounded-xl border border-gray-300 dark:border-[#284c43] text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#1b332d] transition cursor-pointer">Batal</button>
+                <button type="submit" class="px-5 py-2 text-xs font-bold rounded-xl bg-[#35635b] dark:bg-[#107050] text-white hover:bg-[#2b4f49] dark:hover:bg-[#0c5940] transition cursor-pointer shadow-xs">Kirim Balasan</button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
+    let currentReplyFotoUrl = '';
+    let currentReplyPengadu = '';
+
+    function viewReplyFotoFull() {
+        if (currentReplyFotoUrl && currentReplyFotoUrl.trim() !== '') {
+            const replyModal = document.getElementById('modal-reply-aduan');
+            if (replyModal && !replyModal.classList.contains('hidden')) {
+                replyModal.classList.add('hidden');
+                replyModal.classList.remove('flex');
+                replyModal.dataset.wasOpen = 'true';
+            }
+            if (typeof openDocumentPreview === 'function') {
+                openDocumentPreview(currentReplyFotoUrl, 'Foto Bukti Aduan - ' + (currentReplyPengadu || 'Pengaduan'), 'foto-bukti-aduan.jpg');
+            } else if (typeof openDocumentPreviewModal === 'function') {
+                openDocumentPreviewModal(currentReplyFotoUrl, 'Foto Bukti Aduan - ' + (currentReplyPengadu || 'Pengaduan'));
+            } else {
+                window.open(currentReplyFotoUrl, '_blank');
+            }
+        }
+    }
+
+    window.addEventListener('documentPreviewClosed', function() {
+        const replyModal = document.getElementById('modal-reply-aduan');
+        if (replyModal && replyModal.dataset.wasOpen === 'true') {
+            replyModal.classList.remove('hidden');
+            replyModal.classList.add('flex');
+            delete replyModal.dataset.wasOpen;
+        }
+    });
+
+    // Alias fallback untuk kompatibilitas
+    window.openDocumentPreviewModal = function(url, title, filename) {
+        if (typeof openDocumentPreview === 'function') {
+            openDocumentPreview(url, title, filename);
+        } else {
+            window.open(url, '_blank');
+        }
+    };
+
     function openReplyModal(btn) {
         const form = document.getElementById('form-reply-aduan');
         form.action = btn.dataset.action;
         const pengadu = btn.dataset.pengadu || '';
+        currentReplyPengadu = pengadu;
         document.getElementById('reply-pengadu-nama').textContent = pengadu;
         document.getElementById('reply-aduan-teks').textContent = '"' + (btn.dataset.aduan || '') + '"';
         document.getElementById('reply-balasan-text').value = btn.dataset.balasan || '';
 
         const fotoUrl = btn.dataset.foto;
+        currentReplyFotoUrl = fotoUrl || '';
         const fotoContainer = document.getElementById('reply-foto-container');
         const fotoImg = document.getElementById('reply-foto-img');
-        const fotoBtn = document.getElementById('reply-foto-btn');
 
         if (fotoUrl && fotoUrl.trim() !== '') {
             fotoImg.src = fotoUrl;
-            fotoBtn.onclick = function() { openDocumentPreviewModal(fotoUrl, 'Foto Aduan - ' + pengadu); };
             fotoContainer.classList.remove('hidden');
         } else {
             fotoContainer.classList.add('hidden');

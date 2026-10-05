@@ -19,9 +19,7 @@
     <div>
         <!-- Logo & Header (Solid Green RAPID Card) -->
         <div class="px-5 py-4 min-h-[64px] sm:min-h-[72px] flex items-center gap-3 bg-[#35635b] dark:bg-[#16352e] text-white border-b border-[#2a5049] dark:border-[#233a34] shadow-sm">
-            <div class="w-9 h-10 rounded-xl bg-white/15 dark:bg-white/10 border border-white/25 dark:border-white/20 p-1.5 flex items-center justify-center shrink-0 shadow-xs">
-                <img src="{{ asset('assets/foto/logo-bappenda.png') }}" alt="Logo Kab. Bogor" class="w-full h-full object-contain drop-shadow-xs">
-            </div>
+            <img src="{{ asset('assets/foto/logo-bappenda.png') }}" alt="Logo Kab. Bogor" class="w-9 h-10 object-contain drop-shadow-sm shrink-0">
             <div class="min-w-0 flex-1">
                 <h1 class="font-black text-xl leading-none tracking-wide text-white drop-shadow-xs">RAPID</h1>
                 <p class="text-[8px] font-bold text-white/85 dark:text-emerald-200 tracking-wider uppercase mt-1 leading-none whitespace-nowrap">RAPAT DAN PRESENSI INTEGRASI DIGITAL</p>
