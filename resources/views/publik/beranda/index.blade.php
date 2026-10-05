@@ -439,7 +439,7 @@
                         <p class="font-bold text-gray-900 dark:text-white text-xs border-b border-gray-100 dark:border-[#284c43] pb-1.5">Keterangan Peta</p>
                         <div class="flex items-center gap-2.5">
                             <div class="w-5 flex items-center justify-center shrink-0">
-                                <span class="w-4.5 h-1.5 rounded-full bg-[#10b981] shadow-2xs inline-block"></span>
+                                <span class="w-5 h-1.5 rounded-full bg-[#10b981] shadow-2xs inline-block" style="width: 18px; height: 5px; background-color: #10b981; border-radius: 9999px; display: inline-block;"></span>
                             </div>
                             <span class="text-gray-700 dark:text-gray-300 font-medium">Batas Kecamatan Kab. Bogor</span>
                         </div>
