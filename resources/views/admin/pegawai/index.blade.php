@@ -2,12 +2,6 @@
 
 @section('title', 'Data Pegawai')
 
-@section('header_actions')
-<button onclick="openModal('modal-tambah-pegawai')" class="bg-[#35635b] hover:bg-[#2b4f49] dark:bg-[#107050] dark:hover:bg-[#0c5940] text-white font-bold py-2 px-4 rounded-xl flex items-center justify-center gap-1.5 transition shadow-xs text-xs border border-transparent dark:border-[#10b981]/30 cursor-pointer">
-    <span class="text-base leading-none">+</span>
-    <span>Tambah Pegawai</span>
-</button>
-@endsection
 
 @section('content')
 <div class="max-w-[1400px] mx-auto space-y-6">
@@ -58,19 +52,28 @@
     </div>
 
     <div class="bg-white dark:bg-[#152420] rounded-2xl shadow-xs border border-gray-100 dark:border-[#233a34] overflow-hidden transition-colors">
-        <!-- Card Header: Title (Left), Search & Filters (Middle), Button (Right) -->
-        <div class="border-b border-gray-100 dark:border-[#233a34] px-5 sm:px-6 py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-            <!-- Left: Title & Subtitle -->
-            <div class="shrink-0">
-                <h2 class="text-base font-extrabold text-gray-800 dark:text-white">Daftar Pegawai</h2>
-                <p id="text-count-pegawai" class="mt-0.5 text-xs text-gray-500 dark:text-gray-300">Menampilkan {{ $pegawai->count() }} dari {{ $totalPegawai ?? $pegawai->count() }} pegawai.</p>
+        <!-- Card Header: Title & Action (Top), Search & Filters (Bottom) -->
+        <div class="border-b border-gray-100 dark:border-[#233a34] px-5 sm:px-6 py-4 space-y-3.5">
+            <!-- Row 1: Title (Left) & Add Button (Right) -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="shrink-0">
+                    <h2 class="text-base font-extrabold text-gray-800 dark:text-white">Daftar Pegawai</h2>
+                    <p id="text-count-pegawai" class="mt-0.5 text-xs text-gray-500 dark:text-gray-300">Menampilkan {{ $pegawai->count() }} dari {{ $totalPegawai ?? $pegawai->count() }} pegawai.</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <button type="button" onclick="openModal('modal-tambah-pegawai')" class="w-full sm:w-auto bg-[#35635b] hover:bg-[#2b4f49] dark:bg-[#107050] dark:hover:bg-[#0c5940] text-white font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-1.5 transition shadow-xs text-xs border border-transparent dark:border-[#10b981]/30 cursor-pointer shrink-0 whitespace-nowrap">
+                        <span class="text-base leading-none font-bold">+</span>
+                        <span>Tambah Pegawai</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Middle: Search Bar & Filters -->
-            <form id="form-search-pegawai" method="GET" action="{{ route('admin.pegawai.lihat') }}" class="flex-1 max-w-3xl w-full">
+            <!-- Row 2: Search Bar & Filters -->
+            <form id="form-search-pegawai" method="GET" action="{{ route('admin.pegawai.lihat') }}" class="w-full">
                 <input type="hidden" name="status" value="{{ request('status', 'semua') }}">
-                <div class="flex flex-col sm:flex-row items-center gap-2">
-                    <div class="relative flex-1 w-full">
+                <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-2.5">
+                    <!-- Search Input -->
+                    <div class="relative flex-1 min-w-0">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
@@ -82,53 +85,60 @@
                             class="h-10 w-full pl-10 pr-4 rounded-xl border border-gray-200 dark:border-[#284c43] bg-gray-50 dark:bg-[#0f1c19] text-xs text-gray-700 dark:text-white outline-none transition focus:border-[#35635b] focus:ring-2 focus:ring-[#35635b]/20 placeholder-gray-400 dark:placeholder-gray-500"
                             placeholder="Cari nama, NIP, jabatan, bidang, HP...">
                     </div>
-                    @if ($admin->isSuperAdmin())
+
+                    <!-- Dropdowns Group -->
+                    <div class="flex flex-col sm:flex-row flex-wrap xl:flex-nowrap items-stretch sm:items-center gap-2 shrink-0">
+                        @if ($admin->isSuperAdmin())
+                            <select
+                                id="instansi-filter"
+                                name="instansi"
+                                onchange="document.getElementById('form-search-pegawai').submit()"
+                                class="h-10 w-full sm:w-48 xl:w-56 shrink-0 rounded-xl border border-gray-200 dark:border-[#284c43] bg-gray-50 dark:bg-[#0f1c19] px-3 text-xs font-medium text-gray-700 dark:text-white outline-none transition focus:border-[#35635b] focus:ring-2 focus:ring-[#35635b]/20 cursor-pointer truncate">
+                                <option value="semua" @selected(($instansiFilter ?? 'semua') === 'semua')>Semua Instansi</option>
+                                <optgroup label="🏢 Dinas / Perangkat Daerah">
+                                    @foreach (($dinasList ?? collect()) as $dinas)
+                                        <option value="dinas_{{ $dinas->id_dinas }}" @selected(($instansiFilter ?? 'semua') === 'dinas_' . $dinas->id_dinas)>{{ $dinas->nama_lengkap ?? $dinas->nama_dinas }}</option>
+                                    @endforeach
+                                </optgroup>
+                                <optgroup label="🏛️ Kecamatan">
+                                    @foreach (($kecamatanList ?? collect()) as $kecamatan)
+                                        <option value="kecamatan_{{ $kecamatan->id_kecamatan }}" @selected(($instansiFilter ?? 'semua') === 'kecamatan_' . $kecamatan->id_kecamatan)>{{ $kecamatan->nama_kecamatan }}</option>
+                                    @endforeach
+                                </optgroup>
+                            </select>
+                        @endif
+
                         <select
-                            id="instansi-filter"
-                            name="instansi"
+                            id="bidang-filter"
+                            name="bidang"
                             onchange="document.getElementById('form-search-pegawai').submit()"
-                            class="h-10 rounded-xl border border-gray-200 dark:border-[#284c43] bg-gray-50 dark:bg-[#0f1c19] px-3 text-xs font-medium text-gray-700 dark:text-white outline-none transition focus:border-[#35635b] focus:ring-2 focus:ring-[#35635b]/20">
-                            <option value="semua" @selected(($instansiFilter ?? 'semua') === 'semua')>Semua Instansi</option>
-                            <optgroup label="Dinas / Perangkat Daerah">
-                                @foreach (($dinasList ?? collect()) as $dinas)
-                                    <option value="dinas_{{ $dinas->id_dinas }}" @selected(($instansiFilter ?? 'semua') === 'dinas_' . $dinas->id_dinas)>{{ $dinas->nama_lengkap ?? $dinas->nama_dinas }}</option>
-                                @endforeach
-                            </optgroup>
-                            <optgroup label="Kecamatan">
-                                @foreach (($kecamatanList ?? collect()) as $kecamatan)
-                                    <option value="kecamatan_{{ $kecamatan->id_kecamatan }}" @selected(($instansiFilter ?? 'semua') === 'kecamatan_' . $kecamatan->id_kecamatan)>{{ $kecamatan->nama_kecamatan }}</option>
-                                @endforeach
-                            </optgroup>
+                            class="h-10 w-full sm:w-36 xl:w-44 shrink-0 rounded-xl border border-gray-200 dark:border-[#284c43] bg-gray-50 dark:bg-[#0f1c19] px-3 text-xs font-medium text-gray-700 dark:text-white outline-none transition focus:border-[#35635b] focus:ring-2 focus:ring-[#35635b]/20 cursor-pointer truncate">
+                            <option value="semua" @selected(($bidangFilter ?? 'semua') === 'semua')>Semua Bidang</option>
+                            @foreach (($bidangOptions ?? collect()) as $bidang)
+                                <option value="{{ $bidang }}" @selected(($bidangFilter ?? 'semua') === $bidang)>{{ $bidang }}</option>
+                            @endforeach
                         </select>
-                    @endif
-                    <select
-                        id="bidang-filter"
-                        name="bidang"
-                        onchange="document.getElementById('form-search-pegawai').submit()"
-                        class="h-10 rounded-xl border border-gray-200 dark:border-[#284c43] bg-gray-50 dark:bg-[#0f1c19] px-3 text-xs font-medium text-gray-700 dark:text-white outline-none transition focus:border-[#35635b] focus:ring-2 focus:ring-[#35635b]/20">
-                        <option value="semua" @selected(($bidangFilter ?? 'semua') === 'semua')>Semua Bidang</option>
-                        @foreach (($bidangOptions ?? collect()) as $bidang)
-                            <option value="{{ $bidang }}" @selected(($bidangFilter ?? 'semua') === $bidang)>{{ $bidang }}</option>
-                        @endforeach
-                    </select>
-                    <select
-                        id="jabatan-filter"
-                        name="jabatan"
-                        onchange="document.getElementById('form-search-pegawai').submit()"
-                        class="h-10 rounded-xl border border-gray-200 dark:border-[#284c43] bg-gray-50 dark:bg-[#0f1c19] px-3 text-xs font-medium text-gray-700 dark:text-white outline-none transition focus:border-[#35635b] focus:ring-2 focus:ring-[#35635b]/20">
-                        <option value="semua" @selected(($jabatanFilter ?? 'semua') === 'semua')>Semua Jabatan</option>
-                        @foreach (($jabatanOptions ?? collect()) as $jabatan)
-                            <option value="{{ $jabatan }}" @selected(($jabatanFilter ?? 'semua') === $jabatan)>{{ $jabatan }}</option>
-                        @endforeach
-                    </select>
+
+                        <select
+                            id="jabatan-filter"
+                            name="jabatan"
+                            onchange="document.getElementById('form-search-pegawai').submit()"
+                            class="h-10 w-full sm:w-36 xl:w-44 shrink-0 rounded-xl border border-gray-200 dark:border-[#284c43] bg-gray-50 dark:bg-[#0f1c19] px-3 text-xs font-medium text-gray-700 dark:text-white outline-none transition focus:border-[#35635b] focus:ring-2 focus:ring-[#35635b]/20 cursor-pointer truncate">
+                            <option value="semua" @selected(($jabatanFilter ?? 'semua') === 'semua')>Semua Jabatan</option>
+                            @foreach (($jabatanOptions ?? collect()) as $jabatan)
+                                <option value="{{ $jabatan }}" @selected(($jabatanFilter ?? 'semua') === $jabatan)>{{ $jabatan }}</option>
+                            @endforeach
+                        </select>
+
+                        @if (request()->filled('keyword') || (request('instansi') && request('instansi') !== 'semua') || (request('bidang') && request('bidang') !== 'semua') || (request('jabatan') && request('jabatan') !== 'semua'))
+                            <a href="{{ route('admin.pegawai.lihat', array_filter(['status' => request('status', 'semua')])) }}" class="h-10 px-3 inline-flex items-center justify-center gap-1.5 rounded-xl border border-gray-200 dark:border-[#284c43] bg-gray-100 dark:bg-[#1b3832] text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#234941] transition shrink-0 whitespace-nowrap" title="Reset Pencarian & Filter">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                <span>Reset</span>
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </form>
-
-            <!-- Right: Action Button -->
-            <button onclick="openModal('modal-tambah-pegawai')" class="bg-[#35635b] hover:bg-[#2b4f49] dark:bg-[#107050] dark:hover:bg-[#0c5940] text-white font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-1.5 transition shadow-xs text-xs border border-transparent dark:border-[#10b981]/30 cursor-pointer shrink-0">
-                <span class="text-base leading-none">+</span>
-                <span>Tambah Pegawai</span>
-            </button>
         </div>
         <div class="overflow-x-auto overflow-y-auto max-h-[450px] custom-scrollbar">
             <table class="w-full text-left min-w-[1380px]">
