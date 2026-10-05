@@ -647,32 +647,23 @@
                 </div>
 
                 <!-- Card Lampiran Foto -->
-                <div id="home-aduan-photo-container" class="hidden rounded-2xl border border-gray-100 dark:border-[#233a34] bg-white dark:bg-[#0f1c19] p-5 space-y-3 shadow-2xs">
-                    <p class="text-[10px] uppercase font-extrabold tracking-wider text-gray-400 dark:text-gray-400 flex items-center gap-1.5">
-                        <span>Lampiran Foto Aduan</span>
-                    </p>
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                        <button type="button" 
-                                onclick="openHomePhotoModal()" 
-                                class="group relative inline-block overflow-hidden rounded-xl transition hover:opacity-90 cursor-pointer shrink-0"
-                                title="Klik untuk memperbesar foto">
-                            <img id="home-aduan-photo-img" src="" alt="Lampiran Foto" class="h-24 w-36 object-cover rounded-xl transition duration-200 group-hover:scale-105 shadow-sm">
-                            <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 rounded-xl">
-                                <span class="rounded-lg bg-white/95 dark:bg-[#0f1c19] px-2.5 py-1 text-[11px] font-bold text-ijo-tua dark:text-emerald-400 shadow-xs flex items-center gap-1">
-                                    <span>Perbesar</span>
-                                </span>
-                            </div>
-                        </button>
-                        <div class="text-xs text-gray-600 dark:text-gray-300 space-y-1">
-                            <p class="font-bold text-gray-900 dark:text-white">Foto Lampiran Tersedia</p>
-                            <p class="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed">Klik gambar untuk melihat dalam ukuran penuh dengan fitur zoom & geser bebas.</p>
-                            <button type="button" 
-                                    onclick="openHomePhotoModal()" 
-                                    class="inline-flex items-center gap-1 text-[11px] font-bold text-ijo-tua dark:text-emerald-400 hover:underline pt-0.5 cursor-pointer">
-                                Lihat Tampilan Penuh
-                            </button>
-                        </div>
+                <div id="home-aduan-photo-container" class="hidden rounded-2xl border border-gray-100 dark:border-[#233a34] bg-white dark:bg-[#0f1c19] p-4 sm:p-5 space-y-2.5 shadow-2xs">
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] uppercase font-extrabold tracking-wider text-gray-400 dark:text-gray-400 flex items-center gap-1.5">
+                            <span>Lampiran Foto Aduan</span>
+                        </p>
+                        <span class="text-[10.5px] font-medium text-gray-400 dark:text-gray-500">Klik foto untuk perbesar</span>
                     </div>
+                    <button type="button" 
+                            onclick="openHomePhotoModal()" 
+                            class="group relative w-full overflow-hidden rounded-xl bg-gray-50 dark:bg-[#0a1210] border border-gray-200/80 dark:border-[#284c43] flex items-center justify-center cursor-pointer transition hover:border-[#35635b] dark:hover:border-emerald-500/60 focus:outline-none"
+                            title="Klik untuk melihat foto dalam ukuran penuh">
+                        <img id="home-aduan-photo-img" src="" alt="Lampiran Foto Aduan" class="w-full max-h-72 sm:max-h-80 object-contain rounded-xl transition duration-300 group-hover:scale-[1.01]">
+                        <div class="absolute bottom-2.5 right-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/65 group-hover:bg-black/80 backdrop-blur-xs text-white text-[11px] font-bold transition shadow-md pointer-events-none">
+                            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                            <span>Perbesar Foto</span>
+                        </div>
+                    </button>
                 </div>
 
                 <!-- Card Balasan Admin -->
