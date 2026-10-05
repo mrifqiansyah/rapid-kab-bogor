@@ -471,12 +471,7 @@
                 </div>
 
                 <!-- Form Action Buttons -->
-                <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3.5 pt-4 sm:col-span-2 border-t border-gray-100 dark:border-[#233a34] mt-2">
-                    <a href="{{ route('publik.beranda') }}" class="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs sm:text-sm font-bold text-gray-600 dark:text-emerald-400 hover:text-sirapi-green dark:hover:underline py-1.5 transition">
-                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                        <span>Kembali ke Beranda</span>
-                    </a>
-                    
+                <div class="flex justify-end pt-4 sm:col-span-2 border-t border-gray-100 dark:border-[#233a34] mt-2">
                     <button type="submit" class="w-full sm:w-auto h-11 sm:h-12 rounded-xl bg-sirapi-green hover:bg-sirapi-greenSoft dark:bg-[#107050] dark:hover:bg-[#0c5940] dark:border dark:border-[#10b981]/30 px-7 sm:px-8 text-xs sm:text-sm font-extrabold text-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-sirapi-green/25 cursor-pointer flex items-center justify-center gap-2">
                         <span>Daftar Akun Pegawai</span>
                         <i data-lucide="user-plus" class="w-4 h-4"></i>

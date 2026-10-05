@@ -435,29 +435,35 @@
                     <div id="beranda-map" class="w-full h-full z-0 bg-[#e5e3df]"></div>
 
                     <!-- Overlay Legend -->
-                    <div class="absolute bottom-3 left-3 z-20 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/80 dark:border-[#233a34] rounded-xl p-3 shadow-lg text-[11px] space-y-1.5 pointer-events-auto max-w-[245px]">
-                        <p class="font-bold text-gray-900 dark:text-white text-xs border-b border-gray-100 dark:border-[#284c43] pb-1">Keterangan Peta</p>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-5 h-1.5 rounded-full bg-[#10b981] shrink-0 inline-block shadow-2xs"></span>
-                            <span class="text-gray-700 dark:text-gray-300">Batas Kecamatan Kab. Bogor</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <div class="flex flex-col items-center shrink-0">
-                                <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 relative overflow-hidden shadow-xs border border-white">
-                                    <span class="absolute top-0.5 left-0.5 w-2 h-1 bg-white/70 rounded-full rotate-[-30deg] z-20"></span>
-                                </span>
-                                <span class="w-[2px] h-1.5 bg-gray-900"></span>
+                    <div class="absolute bottom-3 left-3 z-20 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/80 dark:border-[#233a34] rounded-xl p-3 shadow-lg text-[11px] space-y-2 pointer-events-auto">
+                        <p class="font-bold text-gray-900 dark:text-white text-xs border-b border-gray-100 dark:border-[#284c43] pb-1.5">Keterangan Peta</p>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-5 flex items-center justify-center shrink-0">
+                                <span class="w-4.5 h-1.5 rounded-full bg-[#10b981] shadow-2xs inline-block"></span>
                             </div>
-                            <span class="text-gray-700 dark:text-gray-300">Kantor Kecamatan</span>
+                            <span class="text-gray-700 dark:text-gray-300 font-medium">Batas Kecamatan Kab. Bogor</span>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <div class="flex flex-col items-center shrink-0">
-                                <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-br from-red-500 to-red-700 relative overflow-hidden shadow-xs border border-white">
-                                    <span class="absolute top-0.5 left-0.5 w-2 h-1 bg-white/70 rounded-full rotate-[-30deg] z-20"></span>
-                                </span>
-                                <span class="w-[2px] h-1.5 bg-gray-900"></span>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-5 flex items-center justify-center shrink-0">
+                                <div class="flex flex-col items-center justify-center">
+                                    <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 relative overflow-hidden shadow-xs border border-white dark:border-[#152420]">
+                                        <span class="absolute top-0.5 left-0.5 w-1.5 h-1 bg-white/70 rounded-full rotate-[-30deg] z-20"></span>
+                                    </span>
+                                    <span class="w-[2px] h-1.5 bg-gray-800 dark:bg-gray-300 -mt-[1px] rounded-b-xs"></span>
+                                </div>
                             </div>
-                            <span class="text-gray-700 dark:text-gray-300">Kantor Dinas & Pemkab</span>
+                            <span class="text-gray-700 dark:text-gray-300 font-medium">Kantor Kecamatan</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-5 flex items-center justify-center shrink-0">
+                                <div class="flex flex-col items-center justify-center">
+                                    <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-br from-red-500 to-red-700 relative overflow-hidden shadow-xs border border-white dark:border-[#152420]">
+                                        <span class="absolute top-0.5 left-0.5 w-1.5 h-1 bg-white/70 rounded-full rotate-[-30deg] z-20"></span>
+                                    </span>
+                                    <span class="w-[2px] h-1.5 bg-gray-800 dark:bg-gray-300 -mt-[1px] rounded-b-xs"></span>
+                                </div>
+                            </div>
+                            <span class="text-gray-700 dark:text-gray-300 font-medium">Kantor Dinas & Pemkab</span>
                         </div>
                     </div>
                 </div>
