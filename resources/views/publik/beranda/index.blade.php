@@ -413,22 +413,70 @@
             <div class="w-full bg-white dark:bg-[#152420] border border-gray-100 dark:border-[#233a34] rounded-xl p-4 md:p-6 shadow-lg space-y-4">
                 <!-- Leaflet Container -->
                 <div class="relative z-10 isolate w-full h-[480px] md:h-[550px] rounded-xl overflow-hidden border border-gray-200/80 dark:border-[#284c43] shadow-inner">
-                    <!-- Map Search Bar Overlay (Top Right) -->
-                    <div class="absolute top-3 right-3 left-3 sm:left-auto sm:w-80 z-20 pointer-events-auto">
-                        <div class="relative">
-                            <div class="relative flex items-center">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                </div>
-                                <input type="text" id="map-search-input" placeholder="Cari Dinas / Kecamatan (contoh: Diskominfo, Cibinong)..." 
-                                       class="w-full pl-9 pr-8 py-2.5 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-xl text-xs font-medium text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 shadow-md focus:outline-none focus:ring-2 focus:ring-[#35635b] dark:focus:ring-emerald-500 transition-all">
-                                <button type="button" id="map-search-clear" onclick="clearMapSearch()" class="hidden absolute right-2.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
-                                    ✕
+                    <!-- Top Controls Overlay (Pill Layer Switcher & Search Bar) -->
+                    <div class="absolute top-3 left-3 right-3 z-20 pointer-events-none flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
+                        <!-- Floating Pill Button Bar (Kabupaten, Kecamatan, Kelurahan/Desa | Lokasi Dinas) -->
+                        <div class="pointer-events-auto self-start max-w-full overflow-x-auto no-scrollbar py-0.5">
+                            <div class="inline-flex items-center bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-full p-1 shadow-md text-xs font-sans">
+                                <!-- 1. Kabupaten -->
+                                <button type="button" id="btn-layer-kabupaten" onclick="switchBoundaryLayer('kabupaten')" 
+                                        class="layer-pill-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-[#0028B3] text-white shadow-xs cursor-pointer select-none">
+                                    Kabupaten
+                                </button>
+
+                                <!-- 2. Kecamatan -->
+                                <button type="button" id="btn-layer-kecamatan" onclick="switchBoundaryLayer('kecamatan')" 
+                                        class="layer-pill-btn px-3 py-1.5 rounded-full text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all cursor-pointer select-none">
+                                    Kecamatan
+                                </button>
+
+                                <!-- 3. Kelurahan/Desa -->
+                                <button type="button" id="btn-layer-kelurahan" onclick="switchBoundaryLayer('kelurahan')" 
+                                        class="layer-pill-btn px-3 py-1.5 rounded-full text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all inline-flex items-center gap-1.5 cursor-pointer select-none">
+                                    <span>Kelurahan/Desa</span>
+                                    <span id="kelurahan-loading-spinner" class="hidden w-3 h-3 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></span>
+                                </button>
+
+                                <!-- Vertical Divider -->
+                                <span class="h-4 w-[1px] bg-gray-300 dark:bg-gray-600 mx-1 shrink-0 inline-block"></span>
+
+                                <!-- 4. Lokasi Dinas -->
+                                <button type="button" id="btn-layer-dinas" onclick="toggleDinasLayer()" 
+                                        class="layer-pill-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-[#0028B3] text-white shadow-xs inline-flex items-center gap-1.5 cursor-pointer select-none">
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16M9 7h1m4 0h1m-6 4h1m4 0h1m-6 4h1m4 0h1M9 21v-3a1 1 0 011-1h4a1 1 0 011 1v3" />
+                                    </svg>
+                                    <span>Lokasi Dinas</span>
+                                </button>
+
+                                <!-- 5. Kantor Kecamatan -->
+                                <button type="button" id="btn-layer-kantor-kecamatan" onclick="toggleKantorKecamatanLayer()" 
+                                        class="layer-pill-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-[#0028B3] text-white shadow-xs inline-flex items-center gap-1.5 cursor-pointer select-none">
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4" />
+                                    </svg>
+                                    <span>Kantor Kecamatan</span>
                                 </button>
                             </div>
+                        </div>
 
-                            <!-- Search Results Dropdown -->
-                            <div id="map-search-results" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-xl shadow-xl max-h-60 overflow-y-auto z-30 divide-y divide-gray-100 dark:divide-[#233a34]">
+                        <!-- Map Search Bar Overlay -->
+                        <div class="pointer-events-auto w-full sm:w-72 lg:w-80">
+                            <div class="relative">
+                                <div class="relative flex items-center">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    </div>
+                                    <input type="text" id="map-search-input" placeholder="Cari Dinas / Kecamatan (contoh: Diskominfo, Cibinong)..." 
+                                           class="w-full pl-9 pr-8 py-2 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-full text-xs font-medium text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 shadow-md focus:outline-none focus:ring-2 focus:ring-[#35635b] dark:focus:ring-emerald-500 transition-all">
+                                    <button type="button" id="map-search-clear" onclick="clearMapSearch()" class="hidden absolute right-2.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                                        ✕
+                                    </button>
+                                </div>
+
+                                <!-- Search Results Dropdown -->
+                                <div id="map-search-results" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-xl shadow-xl max-h-60 overflow-y-auto z-30 divide-y divide-gray-100 dark:divide-[#233a34]">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -440,9 +488,9 @@
                         <p class="font-bold text-gray-900 dark:text-white text-xs border-b border-gray-100 dark:border-[#284c43] pb-1.5">Keterangan Peta</p>
                         <div class="flex items-center gap-2.5">
                             <div class="w-5 flex items-center justify-center shrink-0">
-                                <span class="w-5 h-1.5 rounded-full bg-[#10b981] shadow-2xs inline-block" style="width: 18px; height: 5px; background-color: #10b981; border-radius: 9999px; display: inline-block;"></span>
+                                <span id="legend-boundary-indicator" class="w-5 h-1.5 rounded-full bg-[#0028B3] shadow-2xs inline-block" style="width: 18px; height: 5px; background-color: #0028B3; border-radius: 9999px; display: inline-block;"></span>
                             </div>
-                            <span class="text-gray-700 dark:text-gray-300 font-medium">Batas Kecamatan Kab. Bogor</span>
+                            <span id="legend-boundary-text" class="text-gray-700 dark:text-gray-300 font-medium">Batas Wilayah Kab. Bogor</span>
                         </div>
                         <div class="flex items-center gap-2.5">
                             <div class="w-5 flex items-center justify-center shrink-0">
@@ -465,6 +513,29 @@
                                 </div>
                             </div>
                             <span class="text-gray-700 dark:text-gray-300 font-medium">Kantor Dinas & Pemkab</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating Basemap Style Switcher (Default, Jalan, Satelit) -->
+                    <div class="absolute bottom-16 sm:bottom-3 right-3 sm:right-14 z-20 pointer-events-auto">
+                        <div class="inline-flex items-center bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-full p-1 shadow-md text-xs font-sans">
+                            <!-- 1. Default -->
+                            <button type="button" id="btn-basemap-default" onclick="switchBasemap('default')" 
+                                    class="basemap-pill-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-[#0028B3] text-white shadow-xs cursor-pointer select-none">
+                                Default
+                            </button>
+
+                            <!-- 2. Jalan -->
+                            <button type="button" id="btn-basemap-jalan" onclick="switchBasemap('jalan')" 
+                                    class="basemap-pill-btn px-3.5 py-1.5 rounded-full text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all cursor-pointer select-none">
+                                Jalan
+                            </button>
+
+                            <!-- 3. Satelit -->
+                            <button type="button" id="btn-basemap-satelit" onclick="switchBasemap('satelit')" 
+                                    class="basemap-pill-btn px-3.5 py-1.5 rounded-full text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all cursor-pointer select-none">
+                                Satelit
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1195,73 +1266,83 @@
             const map = L.map('beranda-map', {
                 center: [centerLat, centerLng],
                 zoom: defaultZoom,
-                zoomControl: true,
+                zoomControl: false,
                 scrollWheelZoom: false
             });
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
-                maxNativeZoom: 19,
-                maxZoom: 19
-            }).addTo(map);
+            // Position zoom control cleanly at bottom right
+            L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-            let geojsonLayer;
-
-            // Fetch Administrative GeoJSON of Kabupaten Bogor (40 Kecamatan)
-            fetch("{{ asset('admin_kec.json') }}")
-                .then(res => {
-                    if (!res.ok) throw new Error('HTTP ' + res.status);
-                    return res.json();
+            // Basemap Tile Layers (Default, Jalan, Satelit)
+            const basemapLayers = {
+                default: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
+                    maxNativeZoom: 19,
+                    maxZoom: 19
+                }),
+                jalan: L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                    subdomains: ['0', '1', '2', '3'],
+                    attribution: '&copy; Google Maps',
+                    maxNativeZoom: 20,
+                    maxZoom: 20
+                }),
+                satelit: L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                    subdomains: ['0', '1', '2', '3'],
+                    attribution: '&copy; Google Satellite',
+                    maxNativeZoom: 20,
+                    maxZoom: 20
                 })
-                .then(data => {
-                    geojsonLayer = L.geoJSON(data, {
-                        style: function(feature) {
-                            return {
-                                fillColor: '#35635b',
-                                weight: 1.5,
-                                opacity: 0.7,
-                                color: '#2b4f49',
-                                dashArray: '2',
-                                fillOpacity: 0.18
-                            };
-                        },
-                        onEachFeature: function(feature, layer) {
-                            const kecName = feature.properties?.NKEC || 'Kecamatan';
-                            layer.bindTooltip(`
-                                <div class="px-1.5 py-0.5 font-sans">
-                                    <p class="font-extrabold text-xs text-gray-900">Kec. ${kecName}</p>
-                                    <p class="text-[10px] text-gray-500">Kabupaten Bogor</p>
-                                </div>
-                            `, { sticky: true });
+            };
 
-                            layer.on({
-                                mouseover: function(e) {
-                                    const l = e.target;
-                                    l.setStyle({
-                                        weight: 2.5,
-                                        color: '#D89B3C',
-                                        dashArray: '',
-                                        fillOpacity: 0.5,
-                                        fillColor: '#D89B3C'
-                                    });
-                                    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                                        l.bringToFront();
-                                    }
-                                },
-                                mouseout: function(e) {
-                                    if (geojsonLayer) geojsonLayer.resetStyle(e.target);
-                                },
-                                click: function(e) {
-                                    map.fitBounds(e.target.getBounds());
-                                }
-                            });
+            let currentBasemap = 'default';
+            basemapLayers.default.addTo(map);
+
+            window.switchBasemap = function(type) {
+                if (!basemapLayers[type] || currentBasemap === type) return;
+
+                if (basemapLayers[currentBasemap]) {
+                    map.removeLayer(basemapLayers[currentBasemap]);
+                }
+
+                basemapLayers[type].addTo(map);
+                basemapLayers[type].bringToBack();
+                currentBasemap = type;
+
+                const activeClass = 'bg-[#0028B3] text-white font-bold shadow-xs';
+                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
+
+                ['default', 'jalan', 'satelit'].forEach(t => {
+                    const btn = document.getElementById(`btn-basemap-${t}`);
+                    if (btn) {
+                        if (t === type) {
+                            btn.className = 'basemap-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + activeClass;
+                        } else {
+                            btn.className = 'basemap-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + inactiveClass;
                         }
-                    }).addTo(map);
-                })
-                .catch(err => console.log('GeoJSON Map Notice:', err));
+                    }
+                });
+            };
+
+            // Layer Groups for Markers
+            const dinasMarkersLayer = L.layerGroup().addTo(map);
+            const kecamatanMarkersLayer = L.layerGroup().addTo(map);
+            const agendaMarkersLayer = L.layerGroup().addTo(map);
 
             let allMarkers = [];
             let searchableLocations = [];
+            let totalMapPoints = 0;
+            const existingLocationKeys = new Set();
+            const attachedAgendas = [];
+
+            // GeoJSON Administrative Layers Cache & State
+            let activeBoundary = null;
+            let isDinasActive = true;
+            let currentBoundaryLayer = null;
+            const geoCache = {
+                kabupaten: null,
+                kecamatan: null,
+                kelurahan: null
+            };
 
             // Dynamic Pushpin Icon Sizer based on Zoom Level
             const getIconConfigForZoom = (zoom) => {
@@ -1320,10 +1401,6 @@
                 @endforeach
             ];
 
-            const attachedAgendas = [];
-            let totalMapPoints = 0;
-            const existingLocationKeys = new Set();
-
             function getCanonicalKey(name, lat, lng) {
                 if (!name) return `coord:${lat.toFixed(3)},${lng.toFixed(3)}`;
                 let str = name.toLowerCase()
@@ -1358,7 +1435,7 @@
                 return parseFloat('106.' + digits.replace(/^10/, ''));
             }
 
-            function addMapMarker(name, addr, lat, lng, typeBadge, badgeClass, defaultBgClass, idDinas = null, idKecamatan = null) {
+            function addMapMarker(name, addr, lat, lng, typeBadge, badgeClass, defaultBgClass, idDinas = null, idKecamatan = null, isKec = false) {
                 if (isNaN(lat) || isNaN(lng) || lat === 0 || lng === 0) return;
 
                 const locKey = getCanonicalKey(name, lat, lng);
@@ -1389,13 +1466,22 @@
                 }
 
                 let bgClass = defaultBgClass;
-
                 const currentZoom = map.getZoom();
                 const marker = L.marker([lat, lng], {
                     icon: createCustomIcon(bgClass, currentZoom)
-                }).addTo(map);
+                });
 
-                allMarkers.push({ marker: marker, bgClass: bgClass });
+                marker.on('click', function() {
+                    map.flyTo([lat, lng], Math.max(map.getZoom(), 15), { animate: true, duration: 0.8 });
+                });
+
+                if (isKec || (typeBadge && typeBadge.toLowerCase().includes('kecamatan'))) {
+                    kecamatanMarkersLayer.addLayer(marker);
+                } else {
+                    dinasMarkersLayer.addLayer(marker);
+                }
+
+                allMarkers.push({ marker: marker, bgClass: bgClass, isKec: isKec });
                 searchableLocations.push({
                     name: name,
                     addr: addr || 'Kabupaten Bogor',
@@ -1451,7 +1537,8 @@
                     'bg-red-100 text-red-800',
                     'bg-gradient-to-br from-red-500 via-red-600 to-red-800',
                     d.id_dinas,
-                    null
+                    null,
+                    false
                 );
             });
 
@@ -1469,7 +1556,8 @@
                     'bg-orange-100 text-orange-800',
                     'bg-gradient-to-br from-amber-500 via-orange-500 to-orange-700',
                     null,
-                    k.id_kecamatan
+                    k.id_kecamatan,
+                    true
                 );
             });
 
@@ -1492,14 +1580,17 @@
                                 lng,
                                 'Kantor Dinas / SKPD',
                                 'bg-red-100 text-red-800',
-                                'bg-gradient-to-br from-red-500 via-red-600 to-red-800'
+                                'bg-gradient-to-br from-red-500 via-red-600 to-red-800',
+                                null,
+                                null,
+                                false
                             );
                         }
                     });
                 })
                 .catch(err => console.log('CSV Dinas Notice:', err));
 
-            // 4. Load app_md_mapgovpoint.csv for 41 Gov Points
+            // 4. Load app_md_mapgovpoint.csv for Gov Points
             fetch("{{ asset('app_md_mapgovpoint.csv') }}")
                 .then(res => res.ok ? res.text() : '')
                 .then(csvText => {
@@ -1522,7 +1613,10 @@
                                     isCamat ? 'bg-orange-100 text-orange-800' : 'bg-red-100 text-red-800',
                                     isCamat
                                         ? 'bg-gradient-to-br from-amber-500 via-orange-500 to-orange-700'
-                                        : 'bg-gradient-to-br from-red-500 via-red-600 to-red-800'
+                                        : 'bg-gradient-to-br from-red-500 via-red-600 to-red-800',
+                                    null,
+                                    null,
+                                    isCamat
                                 );
                             }
                         });
@@ -1536,9 +1630,9 @@
 
                         const marker = L.marker([item.lat, item.lng], {
                             icon: createCustomIcon(bgClass, currentZoom)
-                        }).addTo(map);
-
-                        allMarkers.push({ marker: marker, bgClass: bgClass });
+                        });
+                        agendaMarkersLayer.addLayer(marker);
+                        allMarkers.push({ marker: marker, bgClass: bgClass, isKec: false });
 
                         const safeItemName = (item.nama || '').replace(/'/g, "\\'");
                         const safeItemLoc = (item.lokasi || '').replace(/'/g, "\\'");
@@ -1564,6 +1658,320 @@
                 })
                 .catch(err => console.log('CSV Gov Points Notice:', err));
 
+            // GeoJSON Loader and Layer Management
+            function applyGeoJson(type, data, shouldFitBounds = false) {
+                if (currentBoundaryLayer) {
+                    map.removeLayer(currentBoundaryLayer);
+                    currentBoundaryLayer = null;
+                }
+
+                let styleFn;
+                let onEachFeatureFn;
+
+                if (type === 'kabupaten') {
+                    styleFn = function() {
+                        return {
+                            fillColor: '#0028B3',
+                            weight: 2.5,
+                            opacity: 0.9,
+                            color: '#0028B3',
+                            dashArray: '',
+                            fillOpacity: 0.12
+                        };
+                    };
+                    onEachFeatureFn = function(feature, layer) {
+                        layer.bindTooltip(`
+                            <div class="px-2 py-1 font-sans">
+                                <p class="font-extrabold text-xs text-gray-900">Kabupaten Bogor</p>
+                                <p class="text-[10px] text-gray-500">Provinsi Jawa Barat</p>
+                            </div>
+                        `, { sticky: true });
+                        layer.on({
+                            mouseover: function(e) {
+                                e.target.setStyle({ weight: 3.5, color: '#001a75', fillOpacity: 0.22 });
+                            },
+                            mouseout: function(e) {
+                                if (currentBoundaryLayer) currentBoundaryLayer.resetStyle(e.target);
+                            },
+                            click: function(e) {
+                                map.fitBounds(e.target.getBounds());
+                            }
+                        });
+                    };
+                } else if (type === 'kecamatan') {
+                    styleFn = function() {
+                        return {
+                            fillColor: '#35635b',
+                            weight: 1.5,
+                            opacity: 0.7,
+                            color: '#2b4f49',
+                            dashArray: '2',
+                            fillOpacity: 0.18
+                        };
+                    };
+                    onEachFeatureFn = function(feature, layer) {
+                        const kecName = feature.properties?.NKEC || 'Kecamatan';
+                        layer.bindTooltip(`
+                            <div class="px-1.5 py-0.5 font-sans">
+                                <p class="font-extrabold text-xs text-gray-900">Kec. ${kecName}</p>
+                                <p class="text-[10px] text-gray-500">Kabupaten Bogor</p>
+                            </div>
+                        `, { sticky: true });
+                        layer.on({
+                            mouseover: function(e) {
+                                const l = e.target;
+                                l.setStyle({ weight: 2.5, color: '#D89B3C', dashArray: '', fillOpacity: 0.5, fillColor: '#D89B3C' });
+                                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) l.bringToFront();
+                            },
+                            mouseout: function(e) {
+                                if (currentBoundaryLayer) currentBoundaryLayer.resetStyle(e.target);
+                            },
+                            click: function(e) {
+                                map.fitBounds(e.target.getBounds());
+                            }
+                        });
+                    };
+                } else if (type === 'kelurahan') {
+                    styleFn = function() {
+                        return {
+                            fillColor: '#059669',
+                            weight: 1,
+                            opacity: 0.65,
+                            color: '#047857',
+                            dashArray: '1.5',
+                            fillOpacity: 0.15
+                        };
+                    };
+                    onEachFeatureFn = function(feature, layer) {
+                        const kelName = feature.properties?.NKEL || 'Kelurahan/Desa';
+                        const kecName = feature.properties?.NKEC || 'Kab. Bogor';
+                        layer.bindTooltip(`
+                            <div class="px-1.5 py-0.5 font-sans">
+                                <p class="font-extrabold text-xs text-gray-900">Desa/Kel. ${kelName}</p>
+                                <p class="text-[10px] text-gray-500">Kec. ${kecName}</p>
+                            </div>
+                        `, { sticky: true });
+                        layer.on({
+                            mouseover: function(e) {
+                                const l = e.target;
+                                l.setStyle({ weight: 2, color: '#f59e0b', dashArray: '', fillOpacity: 0.45, fillColor: '#f59e0b' });
+                                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) l.bringToFront();
+                            },
+                            mouseout: function(e) {
+                                if (currentBoundaryLayer) currentBoundaryLayer.resetStyle(e.target);
+                            },
+                            click: function(e) {
+                                map.fitBounds(e.target.getBounds());
+                            }
+                        });
+                    };
+                }
+
+                currentBoundaryLayer = L.geoJSON(data, {
+                    style: styleFn,
+                    onEachFeature: onEachFeatureFn
+                }).addTo(map);
+
+                if (shouldFitBounds) {
+                    try {
+                        map.fitBounds(currentBoundaryLayer.getBounds(), { padding: [15, 15] });
+                    } catch (e) {
+                        map.setView([centerLat, centerLng], defaultZoom);
+                    }
+                }
+            }
+
+            window.switchBoundaryLayer = function(type, forceState = null, shouldFit = false) {
+                const btnKab = document.getElementById('btn-layer-kabupaten');
+                const btnKec = document.getElementById('btn-layer-kecamatan');
+                const btnKel = document.getElementById('btn-layer-kelurahan');
+
+                const activeClass = 'bg-[#0028B3] text-white font-bold shadow-xs';
+                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
+
+                // Toggle OFF if clicking already active boundary without forceState
+                if (activeBoundary === type && forceState === null) {
+                    if (currentBoundaryLayer) {
+                        map.removeLayer(currentBoundaryLayer);
+                        currentBoundaryLayer = null;
+                    }
+                    activeBoundary = null;
+
+                    const clickedBtn = document.getElementById(`btn-layer-${type}`);
+                    if (clickedBtn) {
+                        clickedBtn.className = 'layer-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + inactiveClass;
+                    }
+
+                    const legendText = document.getElementById('legend-boundary-text');
+                    if (legendText) legendText.textContent = 'Batas Wilayah (Nonaktif)';
+                    return;
+                }
+
+                if (forceState === false) {
+                    if (currentBoundaryLayer) {
+                        map.removeLayer(currentBoundaryLayer);
+                        currentBoundaryLayer = null;
+                    }
+                    activeBoundary = null;
+                    const clickedBtn = document.getElementById(`btn-layer-${type}`);
+                    if (clickedBtn) {
+                        clickedBtn.className = 'layer-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + inactiveClass;
+                    }
+                    return;
+                }
+
+                activeBoundary = type;
+
+                [btnKab, btnKec, btnKel].forEach(b => {
+                    if (b) {
+                        b.className = 'layer-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + inactiveClass;
+                    }
+                });
+
+                const activeBtn = document.getElementById(`btn-layer-${type}`);
+                if (activeBtn) {
+                    activeBtn.className = 'layer-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + activeClass;
+                }
+
+                // Update Legend indicator & text
+                const legendIndicator = document.getElementById('legend-boundary-indicator');
+                const legendText = document.getElementById('legend-boundary-text');
+                if (legendText) {
+                    if (type === 'kabupaten') {
+                        legendText.textContent = 'Batas Wilayah Kab. Bogor';
+                        if (legendIndicator) legendIndicator.style.backgroundColor = '#0028B3';
+                    } else if (type === 'kecamatan') {
+                        legendText.textContent = 'Batas Kecamatan Kab. Bogor';
+                        if (legendIndicator) legendIndicator.style.backgroundColor = '#10b981';
+                    } else if (type === 'kelurahan') {
+                        legendText.textContent = 'Batas Kelurahan / Desa Kab. Bogor';
+                        if (legendIndicator) legendIndicator.style.backgroundColor = '#059669';
+                    }
+                }
+
+                if (geoCache[type]) {
+                    applyGeoJson(type, geoCache[type], shouldFit);
+                } else {
+                    const spinner = document.getElementById('kelurahan-loading-spinner');
+                    if (spinner && type === 'kelurahan') spinner.classList.remove('hidden');
+
+                    let jsonUrl = "{{ asset('admin_kab.json') }}";
+                    if (type === 'kecamatan') jsonUrl = "{{ asset('admin_kec.json') }}";
+                    else if (type === 'kelurahan') jsonUrl = "{{ asset('admin_kel.json') }}";
+
+                    fetch(jsonUrl)
+                        .then(res => {
+                            if (!res.ok) throw new Error('HTTP ' + res.status);
+                            return res.json();
+                        })
+                        .then(data => {
+                            geoCache[type] = data;
+                            if (spinner && type === 'kelurahan') spinner.classList.add('hidden');
+                            if (activeBoundary === type) {
+                                applyGeoJson(type, data, shouldFit);
+                            }
+                        })
+                        .catch(err => {
+                            console.log('Error loading GeoJSON:', err);
+                            if (spinner && type === 'kelurahan') spinner.classList.add('hidden');
+                        });
+                }
+            };
+
+            window.toggleDinasLayer = function(forceState = null) {
+                if (forceState !== null) {
+                    isDinasActive = forceState;
+                } else {
+                    // Jika sedang aktif tapi posisi peta masih zoom luar (misal zoom default < 13), zoom ke cluster Dinas
+                    if (isDinasActive && map.getZoom() < 13) {
+                        map.flyTo([-6.478846, 106.824738], 14, { animate: true, duration: 1.2 });
+                        return;
+                    }
+                    isDinasActive = !isDinasActive;
+                }
+
+                const btnDinas = document.getElementById('btn-layer-dinas');
+                const activeClass = 'bg-[#0028B3] text-white font-bold shadow-xs';
+                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
+
+                if (btnDinas) {
+                    if (isDinasActive) {
+                        btnDinas.className = 'layer-pill-btn px-3 py-1.5 rounded-full text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + activeClass;
+                    } else {
+                        btnDinas.className = 'layer-pill-btn px-3 py-1.5 rounded-full text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + inactiveClass;
+                    }
+                }
+
+                if (isDinasActive) {
+                    dinasMarkersLayer.addTo(map);
+                    if (forceState === null) {
+                        map.flyTo([-6.478846, 106.824738], 14, { animate: true, duration: 1.2 });
+                    }
+                } else {
+                    map.removeLayer(dinasMarkersLayer);
+                }
+            };
+
+            let isKantorKecamatanActive = true;
+
+            window.toggleKantorKecamatanLayer = function(forceState = null) {
+                if (forceState !== null) {
+                    isKantorKecamatanActive = forceState;
+                } else {
+                    // Jika sedang aktif tapi posisi peta sedang fokus di area lain (misal zoom >= 13), zoom untuk fit seluruh Kantor Kecamatan
+                    if (isKantorKecamatanActive && map.getZoom() >= 13) {
+                        try {
+                            const layers = kecamatanMarkersLayer.getLayers();
+                            if (layers.length > 0) {
+                                const group = L.featureGroup(layers);
+                                map.fitBounds(group.getBounds(), { padding: [35, 35], maxZoom: 12 });
+                            } else {
+                                map.flyTo([centerLat, centerLng], defaultZoom, { animate: true, duration: 1.2 });
+                            }
+                        } catch (e) {
+                            map.flyTo([centerLat, centerLng], defaultZoom, { animate: true, duration: 1.2 });
+                        }
+                        return;
+                    }
+                    isKantorKecamatanActive = !isKantorKecamatanActive;
+                }
+
+                const btnKec = document.getElementById('btn-layer-kantor-kecamatan');
+                const activeClass = 'bg-[#0028B3] text-white font-bold shadow-xs';
+                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
+
+                if (btnKec) {
+                    if (isKantorKecamatanActive) {
+                        btnKec.className = 'layer-pill-btn px-3 py-1.5 rounded-full text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + activeClass;
+                    } else {
+                        btnKec.className = 'layer-pill-btn px-3 py-1.5 rounded-full text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + inactiveClass;
+                    }
+                }
+
+                if (isKantorKecamatanActive) {
+                    kecamatanMarkersLayer.addTo(map);
+                    if (forceState === null) {
+                        try {
+                            const layers = kecamatanMarkersLayer.getLayers();
+                            if (layers.length > 0) {
+                                const group = L.featureGroup(layers);
+                                map.fitBounds(group.getBounds(), { padding: [35, 35], maxZoom: 12 });
+                            } else {
+                                map.flyTo([centerLat, centerLng], defaultZoom, { animate: true, duration: 1.2 });
+                            }
+                        } catch (e) {
+                            map.flyTo([centerLat, centerLng], defaultZoom, { animate: true, duration: 1.2 });
+                        }
+                    }
+                } else {
+                    map.removeLayer(kecamatanMarkersLayer);
+                }
+            };
+
+            // Initialize default active layers: Kabupaten boundary, Lokasi Dinas, and Kantor Kecamatan
+            window.switchBoundaryLayer('kabupaten', true, false);
+            window.toggleDinasLayer(true);
+            window.toggleKantorKecamatanLayer(true);
 
             // Map Search Input & Suggestion Dropdown
             const searchInput = document.getElementById('map-search-input');
@@ -1629,8 +2037,16 @@
             };
 
             window.focusOnMapLocation = function(lat, lng) {
-                map.flyTo([lat, lng], 15, { animate: true, duration: 1.2 });
                 const found = searchableLocations.find(loc => Math.abs(loc.lat - lat) < 0.0001 && Math.abs(loc.lng - lng) < 0.0001);
+                if (found) {
+                    if (found.typeBadge.includes('Kecamatan')) {
+                        window.toggleKantorKecamatanLayer(true);
+                    } else {
+                        window.toggleDinasLayer(true);
+                    }
+                }
+
+                map.flyTo([lat, lng], 15, { animate: true, duration: 1.2 });
                 if (found && found.marker) {
                     setTimeout(() => {
                         found.marker.openPopup();
