@@ -67,6 +67,53 @@
             color: #111827 !important;
         }
 
+        /* ===== LEAFLET ZOOM CONTROLS (ROUNDED-XL & HARMONIZED) ===== */
+        .leaflet-control-zoom {
+            border: none !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
+            margin-right: 14px !important;
+            margin-bottom: 14px !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(8px) !important;
+            border: 1px solid rgba(229, 231, 235, 0.9) !important;
+        }
+        .dark .leaflet-control-zoom {
+            background: rgba(21, 36, 32, 0.95) !important;
+            border-color: rgba(40, 76, 67, 0.9) !important;
+        }
+        .leaflet-control-zoom-in,
+        .leaflet-control-zoom-out {
+            width: 32px !important;
+            height: 32px !important;
+            line-height: 32px !important;
+            color: #374151 !important;
+            background-color: transparent !important;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.8) !important;
+            transition: all 0.2s ease !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+        }
+        .dark .leaflet-control-zoom-in,
+        .dark .leaflet-control-zoom-out {
+            color: #e5e7eb !important;
+            border-bottom-color: rgba(40, 76, 67, 0.8) !important;
+        }
+        .leaflet-control-zoom-out {
+            border-bottom: none !important;
+        }
+        .leaflet-control-zoom-in:hover,
+        .leaflet-control-zoom-out:hover {
+            background-color: rgba(53, 99, 91, 0.1) !important;
+            color: #35635b !important;
+        }
+        .dark .leaflet-control-zoom-in:hover,
+        .dark .leaflet-control-zoom-out:hover {
+            background-color: rgba(16, 185, 129, 0.15) !important;
+            color: #34d399 !important;
+        }
+
         /* ===== HERO BANNER FULL-WIDTH BREAKOUT ===== */
         .hero-fullwidth-breakout {
             width: 100%;
@@ -410,31 +457,31 @@
             </div>
 
             <!-- Card Container Peta -->
-            <div class="w-full bg-white dark:bg-[#152420] border border-gray-100 dark:border-[#233a34] rounded-xl p-4 md:p-6 shadow-lg space-y-4">
+            <div class="w-full bg-white dark:bg-[#152420] border border-gray-100 dark:border-[#233a34] rounded-2xl p-4 md:p-6 shadow-lg space-y-4">
                 <!-- Leaflet Container -->
                 <div class="relative z-10 isolate w-full h-[480px] md:h-[550px] rounded-xl overflow-hidden border border-gray-200/80 dark:border-[#284c43] shadow-inner">
                     <!-- Top Controls Overlay (Pill Layer Switcher & Search Bar) -->
                     <div class="absolute top-3 left-3 right-3 z-20 pointer-events-none flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
                         <!-- Floating Pill Button Bar (Kabupaten, Kecamatan, Kelurahan/Desa | Lokasi Dinas) -->
                         <div class="pointer-events-auto self-start max-w-full overflow-x-auto no-scrollbar py-0.5">
-                            <div class="inline-flex items-center bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-full p-1 shadow-md text-xs font-sans">
+                            <div class="inline-flex items-center gap-1.5 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-xl p-1.5 shadow-md text-xs font-sans">
                                 <!-- 1. Kabupaten -->
                                 <button type="button" id="btn-layer-kabupaten" onclick="switchBoundaryLayer('kabupaten')" 
-                                        class="layer-pill-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-[#0028B3] text-white shadow-xs cursor-pointer select-none">
+                                        class="layer-pill-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-[#35635b] text-white shadow-xs cursor-pointer select-none">
                                     Kabupaten
                                 </button>
 
                                 <!-- 2. Kecamatan -->
                                 <button type="button" id="btn-layer-kecamatan" onclick="switchBoundaryLayer('kecamatan')" 
-                                        class="layer-pill-btn px-3 py-1.5 rounded-full text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all cursor-pointer select-none">
+                                        class="layer-pill-btn px-3 py-1.5 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-[#35635b] dark:hover:text-emerald-300 hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all cursor-pointer select-none">
                                     Kecamatan
                                 </button>
 
                                 <!-- 3. Kelurahan/Desa -->
                                 <button type="button" id="btn-layer-kelurahan" onclick="switchBoundaryLayer('kelurahan')" 
-                                        class="layer-pill-btn px-3 py-1.5 rounded-full text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all inline-flex items-center gap-1.5 cursor-pointer select-none">
+                                        class="layer-pill-btn px-3 py-1.5 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-[#35635b] dark:hover:text-emerald-300 hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all inline-flex items-center gap-1.5 cursor-pointer select-none">
                                     <span>Kelurahan/Desa</span>
-                                    <span id="kelurahan-loading-spinner" class="hidden w-3 h-3 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></span>
+                                    <span id="kelurahan-loading-spinner" class="hidden w-3 h-3 border-2 border-[#35635b] border-t-transparent rounded-full animate-spin"></span>
                                 </button>
 
                                 <!-- Vertical Divider -->
@@ -442,16 +489,16 @@
 
                                 <!-- 4. Lokasi Dinas -->
                                 <button type="button" id="btn-layer-dinas" onclick="toggleDinasLayer()" 
-                                        class="layer-pill-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-[#0028B3] text-white shadow-xs inline-flex items-center gap-1.5 cursor-pointer select-none">
+                                        class="layer-pill-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-[#35635b] text-white shadow-xs inline-flex items-center gap-1.5 cursor-pointer select-none">
                                     <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16M9 7h1m4 0h1m-6 4h1m4 0h1m-6 4h1m4 0h1M9 21v-3a1 1 0 011-1h4a1 1 0 011 1v3" />
                                     </svg>
                                     <span>Lokasi Dinas</span>
                                 </button>
 
-                                <!-- 5. Kantor Kecamatan -->
+                                <!-- 5. Kantor Kecamatan (renggang dengan margin-left) -->
                                 <button type="button" id="btn-layer-kantor-kecamatan" onclick="toggleKantorKecamatanLayer()" 
-                                        class="layer-pill-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-[#0028B3] text-white shadow-xs inline-flex items-center gap-1.5 cursor-pointer select-none">
+                                        class="layer-pill-btn ml-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-[#35635b] text-white shadow-xs inline-flex items-center gap-1.5 cursor-pointer select-none">
                                     <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4" />
                                     </svg>
@@ -468,7 +515,7 @@
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                     </div>
                                     <input type="text" id="map-search-input" placeholder="Cari Dinas / Kecamatan (contoh: Diskominfo, Cibinong)..." 
-                                           class="w-full pl-9 pr-8 py-2 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-full text-xs font-medium text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 shadow-md focus:outline-none focus:ring-2 focus:ring-[#35635b] dark:focus:ring-emerald-500 transition-all">
+                                           class="w-full pl-9 pr-8 py-2 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-xl text-xs font-medium text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 shadow-md focus:outline-none focus:ring-2 focus:ring-[#35635b] dark:focus:ring-emerald-500 transition-all">
                                     <button type="button" id="map-search-clear" onclick="clearMapSearch()" class="hidden absolute right-2.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                                         ✕
                                     </button>
@@ -483,57 +530,24 @@
 
                     <div id="beranda-map" class="w-full h-full z-0 bg-[#e5e3df]"></div>
 
-                    <!-- Overlay Legend -->
-                    <div class="absolute bottom-3 left-3 z-20 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/80 dark:border-[#233a34] rounded-xl p-3 shadow-lg text-[11px] space-y-2 pointer-events-auto">
-                        <p class="font-bold text-gray-900 dark:text-white text-xs border-b border-gray-100 dark:border-[#284c43] pb-1.5">Keterangan Peta</p>
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-5 flex items-center justify-center shrink-0">
-                                <span id="legend-boundary-indicator" class="w-5 h-1.5 rounded-full bg-[#0028B3] shadow-2xs inline-block" style="width: 18px; height: 5px; background-color: #0028B3; border-radius: 9999px; display: inline-block;"></span>
-                            </div>
-                            <span id="legend-boundary-text" class="text-gray-700 dark:text-gray-300 font-medium">Batas Wilayah Kab. Bogor</span>
-                        </div>
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-5 flex items-center justify-center shrink-0">
-                                <div class="flex flex-col items-center justify-center">
-                                    <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 relative overflow-hidden shadow-xs border border-white dark:border-[#152420]">
-                                        <span class="absolute top-0.5 left-0.5 w-1.5 h-1 bg-white/70 rounded-full rotate-[-30deg] z-20"></span>
-                                    </span>
-                                    <span class="w-[2px] h-1.5 bg-gray-800 dark:bg-gray-300 -mt-[1px] rounded-b-xs"></span>
-                                </div>
-                            </div>
-                            <span class="text-gray-700 dark:text-gray-300 font-medium">Kantor Kecamatan</span>
-                        </div>
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-5 flex items-center justify-center shrink-0">
-                                <div class="flex flex-col items-center justify-center">
-                                    <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-br from-red-500 to-red-700 relative overflow-hidden shadow-xs border border-white dark:border-[#152420]">
-                                        <span class="absolute top-0.5 left-0.5 w-1.5 h-1 bg-white/70 rounded-full rotate-[-30deg] z-20"></span>
-                                    </span>
-                                    <span class="w-[2px] h-1.5 bg-gray-800 dark:bg-gray-300 -mt-[1px] rounded-b-xs"></span>
-                                </div>
-                            </div>
-                            <span class="text-gray-700 dark:text-gray-300 font-medium">Kantor Dinas & Pemkab</span>
-                        </div>
-                    </div>
-
-                    <!-- Floating Basemap Style Switcher (Default, Jalan, Satelit) -->
-                    <div class="absolute bottom-16 sm:bottom-3 right-3 sm:right-14 z-20 pointer-events-auto">
-                        <div class="inline-flex items-center bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-full p-1 shadow-md text-xs font-sans">
+                    <!-- Floating Basemap Style Switcher (Default, Jalan, Satelit) dipindah ke pojok kiri bawah menggantikan legenda -->
+                    <div class="absolute bottom-3 left-3 z-20 pointer-events-auto">
+                        <div class="inline-flex items-center gap-1 bg-white/95 dark:bg-[#152420]/95 backdrop-blur-md border border-gray-200/90 dark:border-[#284c43] rounded-xl p-1.5 shadow-md text-xs font-sans">
                             <!-- 1. Default -->
                             <button type="button" id="btn-basemap-default" onclick="switchBasemap('default')" 
-                                    class="basemap-pill-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-[#0028B3] text-white shadow-xs cursor-pointer select-none">
+                                    class="basemap-pill-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-[#35635b] text-white shadow-xs cursor-pointer select-none">
                                 Default
                             </button>
 
                             <!-- 2. Jalan -->
                             <button type="button" id="btn-basemap-jalan" onclick="switchBasemap('jalan')" 
-                                    class="basemap-pill-btn px-3.5 py-1.5 rounded-full text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all cursor-pointer select-none">
+                                    class="basemap-pill-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-[#35635b] dark:hover:text-emerald-300 hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all cursor-pointer select-none">
                                 Jalan
                             </button>
 
                             <!-- 3. Satelit -->
                             <button type="button" id="btn-basemap-satelit" onclick="switchBasemap('satelit')" 
-                                    class="basemap-pill-btn px-3.5 py-1.5 rounded-full text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all cursor-pointer select-none">
+                                    class="basemap-pill-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-[#35635b] dark:hover:text-emerald-300 hover:bg-gray-100/80 dark:hover:bg-[#1f352f] transition-all cursor-pointer select-none">
                                 Satelit
                             </button>
                         </div>
@@ -1308,16 +1322,16 @@
                 basemapLayers[type].bringToBack();
                 currentBasemap = type;
 
-                const activeClass = 'bg-[#0028B3] text-white font-bold shadow-xs';
-                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
+                const activeClass = 'bg-[#35635b] text-white font-bold shadow-xs';
+                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-[#35635b] dark:hover:text-emerald-300 hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
 
                 ['default', 'jalan', 'satelit'].forEach(t => {
                     const btn = document.getElementById(`btn-basemap-${t}`);
                     if (btn) {
                         if (t === type) {
-                            btn.className = 'basemap-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + activeClass;
+                            btn.className = 'basemap-pill-btn px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer select-none ' + activeClass;
                         } else {
-                            btn.className = 'basemap-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + inactiveClass;
+                            btn.className = 'basemap-pill-btn px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer select-none ' + inactiveClass;
                         }
                     }
                 });
@@ -1494,9 +1508,10 @@
                 const safeName = name.replace(/'/g, "\\'");
                 const safeAddr = (addr || '').replace(/'/g, "\\'");
                 const safeBadge = (typeBadge || '').replace(/'/g, "\\'");
+                const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
                 let popupHtml = `
-                    <div class="p-2 font-sans max-w-[250px]">
+                    <div class="p-2 font-sans max-w-[260px]">
                         <span class="${badgeClass} text-[10px] font-extrabold px-2 py-0.5 rounded-full">${typeBadge}</span>
                         <h4 class="font-bold text-xs text-gray-900 mt-1.5 leading-snug" style="color: #111827 !important;">${name}</h4>
                         <p class="text-[11px] text-gray-700 font-medium mt-1 leading-relaxed" style="color: #374151 !important;">${addr}</p>
@@ -1514,9 +1529,18 @@
                 }
 
                 popupHtml += `
-                    <div class="flex items-center gap-2 mt-3 pt-2.5 border-t border-gray-200">
-                        <a href="{{ route('publik.form-kunjungan') }}" style="color: #ffffff !important; text-decoration: none !important;" class="leaflet-popup-btn flex-1 text-center text-[10px] sm:text-[11px] font-bold text-white bg-[#35635b] hover:bg-[#2b4f49] px-2 py-1.5 rounded-lg transition-all shadow-xs">Form Kunjungan</a>
-                        <button type="button" onclick="openLocationAgendasModal('${safeName}', '${safeAddr}', ${idDinas || 'null'}, ${idKecamatan || 'null'}, '${safeBadge}')" style="color: #ffffff !important;" class="leaflet-popup-btn flex-1 text-center text-[10px] sm:text-[11px] font-bold text-white bg-emerald-700 hover:bg-emerald-800 px-2 py-1.5 rounded-lg transition-all shadow-xs cursor-pointer">Agenda &rarr;</button>
+                    <div class="mt-3 pt-2.5 border-t border-gray-200 flex flex-col gap-1.5">
+                        <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="color: #ffffff !important; text-decoration: none !important;" class="leaflet-popup-btn w-full text-center text-[10.5px] font-bold text-white bg-[#1E6E8C] hover:bg-[#15536b] py-1.5 px-2 rounded-lg transition-all shadow-xs flex items-center justify-center gap-1.5">
+                            <svg class="w-3.5 h-3.5 shrink-0 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>Petunjuk Arah (Google Maps)</span>
+                        </a>
+                        <div class="flex items-center gap-1.5">
+                            <a href="{{ route('publik.form-kunjungan') }}" style="color: #ffffff !important; text-decoration: none !important;" class="leaflet-popup-btn flex-1 text-center text-[10px] sm:text-[11px] font-bold text-white bg-[#35635b] hover:bg-[#2b4f49] px-2 py-1.5 rounded-lg transition-all shadow-xs">Form Kunjungan</a>
+                            <button type="button" onclick="openLocationAgendasModal('${safeName}', '${safeAddr}', ${idDinas || 'null'}, ${idKecamatan || 'null'}, '${safeBadge}', ${lat}, ${lng})" style="color: #ffffff !important;" class="leaflet-popup-btn flex-1 text-center text-[10px] sm:text-[11px] font-bold text-white bg-emerald-700 hover:bg-emerald-800 px-2 py-1.5 rounded-lg transition-all shadow-xs cursor-pointer">Agenda &rarr;</button>
+                        </div>
                     </div>
                 </div>`;
 
@@ -1636,16 +1660,26 @@
 
                         const safeItemName = (item.nama || '').replace(/'/g, "\\'");
                         const safeItemLoc = (item.lokasi || '').replace(/'/g, "\\'");
+                        const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}`;
 
                         marker.bindPopup(`
-                            <div class="p-2 font-sans max-w-[250px]">
+                            <div class="p-2 font-sans max-w-[260px]">
                                 <span class="bg-red-100 text-red-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">Agenda Kegiatan</span>
                                 <h4 class="font-bold text-xs text-gray-900 mt-1 leading-snug" style="color: #111827 !important;">${item.nama}</h4>
                                 <p class="text-[11px] text-gray-700 font-medium mt-1 leading-relaxed" style="color: #374151 !important;">${item.lokasi}</p>
                                 <p class="text-[10px] text-gray-600 font-medium mt-0.5" style="color: #4b5563 !important;">${item.waktu}</p>
-                                <div class="flex items-center gap-2 mt-3 pt-2.5 border-t border-gray-200">
-                                    <a href="{{ route('publik.form-kunjungan') }}" style="color: #ffffff !important; text-decoration: none !important;" class="leaflet-popup-btn flex-1 text-center text-[10px] sm:text-[11px] font-bold text-white bg-[#35635b] hover:bg-[#2b4f49] px-2 py-1.5 rounded-lg transition-all shadow-xs">Form Kunjungan</a>
-                                    <button type="button" onclick="openLocationAgendasModal('${safeItemLoc}', '${safeItemLoc}', null, null, 'Agenda Kegiatan')" style="color: #ffffff !important;" class="leaflet-popup-btn flex-1 text-center text-[10px] sm:text-[11px] font-bold text-white bg-emerald-700 hover:bg-emerald-800 px-2 py-1.5 rounded-lg transition-all shadow-xs cursor-pointer">Agenda &rarr;</button>
+                                <div class="mt-3 pt-2.5 border-t border-gray-200 flex flex-col gap-1.5">
+                                    <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="color: #ffffff !important; text-decoration: none !important;" class="leaflet-popup-btn w-full text-center text-[10.5px] font-bold text-white bg-[#1E6E8C] hover:bg-[#15536b] py-1.5 px-2 rounded-lg transition-all shadow-xs flex items-center justify-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5 shrink-0 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        <span>Petunjuk Arah (Google Maps)</span>
+                                    </a>
+                                    <div class="flex items-center gap-1.5">
+                                        <a href="{{ route('publik.form-kunjungan') }}" style="color: #ffffff !important; text-decoration: none !important;" class="leaflet-popup-btn flex-1 text-center text-[10px] sm:text-[11px] font-bold text-white bg-[#35635b] hover:bg-[#2b4f49] px-2 py-1.5 rounded-lg transition-all shadow-xs">Form Kunjungan</a>
+                                        <button type="button" onclick="openLocationAgendasModal('${safeItemLoc}', '${safeItemLoc}', null, null, 'Agenda Kegiatan', ${item.lat}, ${item.lng})" style="color: #ffffff !important;" class="leaflet-popup-btn flex-1 text-center text-[10px] sm:text-[11px] font-bold text-white bg-emerald-700 hover:bg-emerald-800 px-2 py-1.5 rounded-lg transition-all shadow-xs cursor-pointer">Agenda &rarr;</button>
+                                    </div>
                                 </div>
                             </div>
                         `);
@@ -1671,12 +1705,12 @@
                 if (type === 'kabupaten') {
                     styleFn = function() {
                         return {
-                            fillColor: '#0028B3',
+                            fillColor: '#35635b',
                             weight: 2.5,
                             opacity: 0.9,
-                            color: '#0028B3',
+                            color: '#35635b',
                             dashArray: '',
-                            fillOpacity: 0.12
+                            fillOpacity: 0.10
                         };
                     };
                     onEachFeatureFn = function(feature, layer) {
@@ -1688,7 +1722,7 @@
                         `, { sticky: true });
                         layer.on({
                             mouseover: function(e) {
-                                e.target.setStyle({ weight: 3.5, color: '#001a75', fillOpacity: 0.22 });
+                                e.target.setStyle({ weight: 3.5, color: '#2b4f49', fillOpacity: 0.20 });
                             },
                             mouseout: function(e) {
                                 if (currentBoundaryLayer) currentBoundaryLayer.resetStyle(e.target);
@@ -1786,8 +1820,8 @@
                 const btnKec = document.getElementById('btn-layer-kecamatan');
                 const btnKel = document.getElementById('btn-layer-kelurahan');
 
-                const activeClass = 'bg-[#0028B3] text-white font-bold shadow-xs';
-                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
+                const activeClass = 'bg-[#35635b] text-white font-bold shadow-xs';
+                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-[#35635b] dark:hover:text-emerald-300 hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
 
                 // Toggle OFF if clicking already active boundary without forceState
                 if (activeBoundary === type && forceState === null) {
@@ -1799,11 +1833,9 @@
 
                     const clickedBtn = document.getElementById(`btn-layer-${type}`);
                     if (clickedBtn) {
-                        clickedBtn.className = 'layer-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + inactiveClass;
+                        clickedBtn.className = 'layer-pill-btn px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer select-none ' + inactiveClass;
                     }
 
-                    const legendText = document.getElementById('legend-boundary-text');
-                    if (legendText) legendText.textContent = 'Batas Wilayah (Nonaktif)';
                     return;
                 }
 
@@ -1815,7 +1847,7 @@
                     activeBoundary = null;
                     const clickedBtn = document.getElementById(`btn-layer-${type}`);
                     if (clickedBtn) {
-                        clickedBtn.className = 'layer-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + inactiveClass;
+                        clickedBtn.className = 'layer-pill-btn px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer select-none ' + inactiveClass;
                     }
                     return;
                 }
@@ -1824,29 +1856,13 @@
 
                 [btnKab, btnKec, btnKel].forEach(b => {
                     if (b) {
-                        b.className = 'layer-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + inactiveClass;
+                        b.className = 'layer-pill-btn px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer select-none ' + inactiveClass;
                     }
                 });
 
                 const activeBtn = document.getElementById(`btn-layer-${type}`);
                 if (activeBtn) {
-                    activeBtn.className = 'layer-pill-btn px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ' + activeClass;
-                }
-
-                // Update Legend indicator & text
-                const legendIndicator = document.getElementById('legend-boundary-indicator');
-                const legendText = document.getElementById('legend-boundary-text');
-                if (legendText) {
-                    if (type === 'kabupaten') {
-                        legendText.textContent = 'Batas Wilayah Kab. Bogor';
-                        if (legendIndicator) legendIndicator.style.backgroundColor = '#0028B3';
-                    } else if (type === 'kecamatan') {
-                        legendText.textContent = 'Batas Kecamatan Kab. Bogor';
-                        if (legendIndicator) legendIndicator.style.backgroundColor = '#10b981';
-                    } else if (type === 'kelurahan') {
-                        legendText.textContent = 'Batas Kelurahan / Desa Kab. Bogor';
-                        if (legendIndicator) legendIndicator.style.backgroundColor = '#059669';
-                    }
+                    activeBtn.className = 'layer-pill-btn px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer select-none ' + activeClass;
                 }
 
                 if (geoCache[type]) {
@@ -1882,31 +1898,23 @@
                 if (forceState !== null) {
                     isDinasActive = forceState;
                 } else {
-                    // Jika sedang aktif tapi posisi peta masih zoom luar (misal zoom default < 13), zoom ke cluster Dinas
-                    if (isDinasActive && map.getZoom() < 13) {
-                        map.flyTo([-6.478846, 106.824738], 14, { animate: true, duration: 1.2 });
-                        return;
-                    }
                     isDinasActive = !isDinasActive;
                 }
 
                 const btnDinas = document.getElementById('btn-layer-dinas');
-                const activeClass = 'bg-[#0028B3] text-white font-bold shadow-xs';
-                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
+                const activeClass = 'bg-[#35635b] text-white font-bold shadow-xs';
+                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-[#35635b] dark:hover:text-emerald-300 hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
 
                 if (btnDinas) {
                     if (isDinasActive) {
-                        btnDinas.className = 'layer-pill-btn px-3 py-1.5 rounded-full text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + activeClass;
+                        btnDinas.className = 'layer-pill-btn px-3.5 py-1.5 rounded-lg text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + activeClass;
                     } else {
-                        btnDinas.className = 'layer-pill-btn px-3 py-1.5 rounded-full text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + inactiveClass;
+                        btnDinas.className = 'layer-pill-btn px-3.5 py-1.5 rounded-lg text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + inactiveClass;
                     }
                 }
 
                 if (isDinasActive) {
                     dinasMarkersLayer.addTo(map);
-                    if (forceState === null) {
-                        map.flyTo([-6.478846, 106.824738], 14, { animate: true, duration: 1.2 });
-                    }
                 } else {
                     map.removeLayer(dinasMarkersLayer);
                 }
@@ -1918,51 +1926,23 @@
                 if (forceState !== null) {
                     isKantorKecamatanActive = forceState;
                 } else {
-                    // Jika sedang aktif tapi posisi peta sedang fokus di area lain (misal zoom >= 13), zoom untuk fit seluruh Kantor Kecamatan
-                    if (isKantorKecamatanActive && map.getZoom() >= 13) {
-                        try {
-                            const layers = kecamatanMarkersLayer.getLayers();
-                            if (layers.length > 0) {
-                                const group = L.featureGroup(layers);
-                                map.fitBounds(group.getBounds(), { padding: [35, 35], maxZoom: 12 });
-                            } else {
-                                map.flyTo([centerLat, centerLng], defaultZoom, { animate: true, duration: 1.2 });
-                            }
-                        } catch (e) {
-                            map.flyTo([centerLat, centerLng], defaultZoom, { animate: true, duration: 1.2 });
-                        }
-                        return;
-                    }
                     isKantorKecamatanActive = !isKantorKecamatanActive;
                 }
 
                 const btnKec = document.getElementById('btn-layer-kantor-kecamatan');
-                const activeClass = 'bg-[#0028B3] text-white font-bold shadow-xs';
-                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
+                const activeClass = 'bg-[#35635b] text-white font-bold shadow-xs';
+                const inactiveClass = 'text-gray-700 dark:text-gray-200 hover:text-[#35635b] dark:hover:text-emerald-300 hover:bg-gray-100/80 dark:hover:bg-[#1f352f] font-medium';
 
                 if (btnKec) {
                     if (isKantorKecamatanActive) {
-                        btnKec.className = 'layer-pill-btn px-3 py-1.5 rounded-full text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + activeClass;
+                        btnKec.className = 'layer-pill-btn ml-1.5 px-3.5 py-1.5 rounded-lg text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + activeClass;
                     } else {
-                        btnKec.className = 'layer-pill-btn px-3 py-1.5 rounded-full text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + inactiveClass;
+                        btnKec.className = 'layer-pill-btn ml-1.5 px-3.5 py-1.5 rounded-lg text-xs transition-all inline-flex items-center gap-1.5 cursor-pointer select-none ' + inactiveClass;
                     }
                 }
 
                 if (isKantorKecamatanActive) {
                     kecamatanMarkersLayer.addTo(map);
-                    if (forceState === null) {
-                        try {
-                            const layers = kecamatanMarkersLayer.getLayers();
-                            if (layers.length > 0) {
-                                const group = L.featureGroup(layers);
-                                map.fitBounds(group.getBounds(), { padding: [35, 35], maxZoom: 12 });
-                            } else {
-                                map.flyTo([centerLat, centerLng], defaultZoom, { animate: true, duration: 1.2 });
-                            }
-                        } catch (e) {
-                            map.flyTo([centerLat, centerLng], defaultZoom, { animate: true, duration: 1.2 });
-                        }
-                    }
                 } else {
                     map.removeLayer(kecamatanMarkersLayer);
                 }
@@ -2070,7 +2050,7 @@
 
         window.allAgendasDataset = @json($allMapAgendas ?? []);
 
-        window.openLocationAgendasModal = function(locationName, locationAddr, idDinas, idKecamatan, typeBadge) {
+        window.openLocationAgendasModal = function(locationName, locationAddr, idDinas, idKecamatan, typeBadge, lat = null, lng = null) {
             const modal = document.getElementById('modal-agenda-lokasi');
             const modalCard = document.getElementById('modal-agenda-lokasi-card');
             const titleEl = document.getElementById('modal-location-title');
@@ -2078,12 +2058,22 @@
             const badgeEl = document.getElementById('modal-location-badge');
             const countEl = document.getElementById('modal-agenda-count');
             const container = document.getElementById('modal-agenda-list-container');
+            const gmapsModalLink = document.getElementById('modal-gmaps-link');
 
             if (!modal) return;
 
             titleEl.textContent = locationName;
             subTitleEl.textContent = locationAddr || 'Kabupaten Bogor';
             badgeEl.textContent = typeBadge || 'Titik Lokasi';
+
+            if (gmapsModalLink) {
+                if (lat && lng) {
+                    gmapsModalLink.href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+                    gmapsModalLink.classList.remove('hidden');
+                } else {
+                    gmapsModalLink.classList.add('hidden');
+                }
+            }
 
             const cleanKeyword = locationName.toLowerCase().replace('kantor', '').replace('camat', '').replace('bupati', '').replace('dinas', '').trim();
 
@@ -2195,10 +2185,16 @@
             </div>
 
             <!-- Footer Modal -->
-            <div class="flex items-center justify-between border-t border-gray-100 dark:border-[#233a34] p-4 bg-gray-50 dark:bg-[#0f1c19]">
-                <a href="{{ route('publik.form-kunjungan') }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline">
-                    <span>Isi Form Kunjungan</span> &rarr;
-                </a>
+            <div class="flex items-center justify-between border-t border-gray-100 dark:border-[#233a34] p-4 bg-gray-50 dark:bg-[#0f1c19] gap-3 flex-wrap">
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('publik.form-kunjungan') }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline">
+                        <span>Isi Form Kunjungan</span> &rarr;
+                    </a>
+                    <a id="modal-gmaps-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden inline-flex items-center gap-1 text-xs font-bold text-[#1E6E8C] dark:text-blue-400 hover:underline">
+                        <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        <span>Petunjuk Arah (Maps)</span>
+                    </a>
+                </div>
                 <button type="button" onclick="closeLocationAgendasModal()" class="rounded-xl bg-gray-200 dark:bg-white/10 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-300 transition cursor-pointer">
                     Tutup
                 </button>
